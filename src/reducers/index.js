@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import videoChat from '../reducers/videoChatReducer'
+import videoChat from './videoChatReducer'
 
 const rootReducer = combineReducers({
   videoChat,

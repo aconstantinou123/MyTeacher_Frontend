@@ -1,7 +1,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import LandingPage from './containers/LandingPage/LandingPage';
 import createHistory from 'history/createBrowserHistory'
+import LandingPage from './containers/LandingPage/LandingPage'
 import store from './store/store'
 
 const history = createHistory()
@@ -15,12 +15,10 @@ history.listen((location) => {
   prevLocation = location
 })
 
-const App = () => {
-  return (
-    <Provider store={store}>
-      <LandingPage/>
-    </Provider>
-  )
-}
+const App = () => (
+  <Provider store={store}>
+    <LandingPage />
+  </Provider>
+)
 
 export default App

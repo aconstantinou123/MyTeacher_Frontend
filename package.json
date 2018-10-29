@@ -6,7 +6,9 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --open --hot",
     "build": "webpack --mode production",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test jest --coverage --passWithNoTests",
+    "lint": "eslint src --fix",
+    "hooks": "hooks/pre-commit.sh"
   },
   "author": "",
   "license": "ISC",
@@ -38,6 +40,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-react": "^7.11.1",
     "history": "^4.7.2",
+    "jest": "^23.6.0",
     "prop-types": "^15.6.2",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",

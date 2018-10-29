@@ -1,25 +1,25 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as videoChatActionCreators from '../../actions/videoChatActions'
 import PropTypes from 'prop-types'
+import * as videoChatActionCreators from '../../actions/videoChatActions'
 
 import './LandingPage.scss'
 
 class LandingPage extends Component {
-
-  componentWillMount(){
+  componentWillMount() {
     const { generateToken } = this.props
     generateToken()
   }
 
-  render(){
+  render() {
     return (
-    <div className="test">CSS Test
-      <h1 className="test2">
+      <div className="test">
+CSS Test
+        <h1 className="test2">
         Test 2
-      </h1>
-    </div>
+        </h1>
+      </div>
     )
   }
 }
@@ -30,7 +30,7 @@ LandingPage.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    ...state. videoChat,
+    ...state.videoChat,
   }
 }
 

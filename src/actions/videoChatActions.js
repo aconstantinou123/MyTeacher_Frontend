@@ -1,14 +1,15 @@
 import axios from 'axios'
 import { connect, createLocalTracks } from 'twilio-video'
-import { roomJoined } from '../helperFunctions/videoChatFunctions'
 import randomString from 'randomstring'
-const randomUsername = randomString.generate(20)
+import { roomJoined } from '../helperFunctions/videoChatFunctions'
 
 import {
   GENERATE_TOKEN,
   CONNECT_TO_ROOM,
   DISCONNECT_FROM_ROOM,
 } from '../types/types'
+
+const randomUsername = randomString.generate(20)
 
 export const generateTokenPending = () => ({ type: `${GENERATE_TOKEN}_PENDING` })
 export const generateTokenFulfilled = payload => ({
@@ -46,23 +47,18 @@ export const connectToRoom = (localContainer, remoteContainer) => async (dispatc
   try {
     const localTracks = await createLocalTracks({
       audio: true,
-      video: { width: 640 }
+      video: { width: 640 },
     })
-    const room = await connect(videoToken, { name:'example', tracks: localTracks })
+    const room = await connect(videoToken, { name: 'example', tracks: localTracks })
     console.log(`Successfully joined a Room: ${room}`)
     roomJoined(room, remoteContainer, localContainer)
     dispatch(connectToRoomFulfilled(room))
-  }
-  catch (err) {
+  } catch (err) {
     dispatch(connectToRoomRejected(err))
   }
 }
 
-export const disconnectFromRoom = (currentRoom) => {
-  // currentRoom.disconnect()
-  return {
-    type: DISCONNECT_FROM_ROOM,
-    payload: currentRoom,
-  }
-}
-
+export const disconnectFromRoom = currentRoom => ({
+  type: DISCONNECT_FROM_ROOM,
+  payload: currentRoom,
+})

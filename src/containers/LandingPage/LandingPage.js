@@ -7,7 +7,7 @@ import * as videoChatActionCreators from '../../actions/videoChatActions'
 import './LandingPage.scss'
 
 class LandingPage extends Component {
-  constructor(){
+  constructor() {
     super()
     this.handleDisconnect = this.handleDisconnect.bind(this)
   }
@@ -17,7 +17,7 @@ class LandingPage extends Component {
     generateToken()
   }
 
-  handleDisconnect(){
+  handleDisconnect() {
     const { activeRoom, disconnectFromRoom } = this.props
     activeRoom.disconnect()
     disconnectFromRoom(activeRoom)
@@ -28,15 +28,15 @@ class LandingPage extends Component {
     return (
       <div className="test">
 Video Chat Test
-        <div ref={(remoteMedia) => { this.remoteMedia = remoteMedia }} className='media-container'></div>
-        <div ref={(localMedia) => { this.localMedia = localMedia }} className='media-container'></div>
+        <div ref={(remoteMedia) => { this.remoteMedia = remoteMedia }} className="media-container" />
+        <div ref={(localMedia) => { this.localMedia = localMedia }} className="media-container" />
         {
-          !hasJoinedRoom &&
-          <button type="button" onClick={() => connectToRoom(this.localMedia, this.remoteMedia)}>Connect</button>
+          !hasJoinedRoom
+          && <button type="button" onClick={() => connectToRoom(this.localMedia, this.remoteMedia)}>Connect</button>
         }
         {
-          hasJoinedRoom &&
-          <button type="button" onClick={this.handleDisconnect}>Disconnect</button>
+          hasJoinedRoom
+          && <button type="button" onClick={this.handleDisconnect}>Disconnect</button>
         }
       </div>
     )

@@ -1,6 +1,6 @@
 export const attachTracks = (tracks, remoteContainer) => {
-  tracks.forEach(track => {
-    remoteContainer.appendChild(track.attach());
+  tracks.forEach((track) => {
+    remoteContainer.appendChild(track.attach())
   })
 }
 
@@ -10,8 +10,8 @@ export const attachParticipantTracks = (participant, remoteContainer) => {
 }
 
 export const detachTracks = (tracks) => {
-  tracks.forEach(track => {
-    track.detach().forEach(detachedElement => {
+  tracks.forEach((track) => {
+    track.detach().forEach((detachedElement) => {
       detachedElement.remove()
     })
   })
@@ -24,25 +24,25 @@ export const detachParticipantTracks = (participant) => {
 
 export const roomJoined = (room, remoteContainer, localContainer) => {
   attachParticipantTracks(room.localParticipant, localContainer)
-  room.participants.forEach(participant => {
-    console.log("Already in Room: '" + participant.identity + "'")
+  room.participants.forEach((participant) => {
+    console.log(`Already in Room: '${participant.identity}'`)
     attachParticipantTracks(participant, remoteContainer)
   })
-  room.on('participantConnected', participant => {
+  room.on('participantConnected', (participant) => {
     console.log(`A remote Participant connected: ${participant}`)
   })
   room.on('trackSubscribed', (track, participant) => {
-    console.log(participant.identity + ' added track: ' + track.kind);
-    attachTracks([track], remoteContainer);
+    console.log(`${participant.identity} added track: ${track.kind}`)
+    attachTracks([track], remoteContainer)
   })
 
   room.on('trackUnsubscribed', (track, participant) => {
-    console.log(participant.identity + ' removed track: ' + track.kind);
-    detachTracks([track]);
+    console.log(`${participant.identity} removed track: ${track.kind}`)
+    detachTracks([track])
   })
-  room.on('participantDisconnected', participant => {
-    console.log("Participant '" + participant.identity + "' left the room");
-    detachParticipantTracks(participant);
+  room.on('participantDisconnected', (participant) => {
+    console.log(`Participant '${participant.identity}' left the room`)
+    detachParticipantTracks(participant)
   })
 
   room.on('disconnected', () => {

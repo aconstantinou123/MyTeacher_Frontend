@@ -16,7 +16,7 @@ class LandingPage extends Component {
   componentWillMount() {
     const { generateToken, getTeacher } = this.props
     generateToken()
-    getTeacher("a_constantinou@hotmail.co.uk")
+    getTeacher('a_constantinou@hotmail.co.uk')
   }
 
   handleDisconnect() {

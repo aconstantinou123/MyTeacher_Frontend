@@ -1,16 +1,16 @@
 import {
-  GET_TEACHER
+  GET_TEACHER,
 } from '../types/types'
 
 const defaultState = {
   teacherFetching: false,
   teacherFetched: false,
   teacher: null,
-  teacherErr: null
+  teacherErr: null,
 }
 
-export default function (state = defaultState, action){
-  switch(action.type) {
+export default function (state = defaultState, action) {
+  switch (action.type) {
     case `${GET_TEACHER}_PENDING`:
       return {
         ...state,
@@ -30,9 +30,9 @@ export default function (state = defaultState, action){
         teacherFetching: false,
         teacherFetched: false,
         teacher: null,
-        teacherErr: action.payload
+        teacherErr: action.payload,
       }
     default:
       return state
   }
-} 
+}

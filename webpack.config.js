@@ -8,7 +8,8 @@ const htmlPlugin = new HtmlWebPackPlugin({
 
 const environmentVariables =  new webpack.EnvironmentPlugin({
   NODE_ENV: 'development',
-  TWILIO_URL: 'http://localhost:3000'
+  TWILIO_URL: 'http://localhost:3000',
+  TEACHER_URL: 'http://localhost:3001'
 })
 
 module.exports = {

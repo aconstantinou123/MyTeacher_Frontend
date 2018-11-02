@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import * as videoChatActionCreators from '../../actions/videoChatActions'
+import * as teacherActionCreators from '../../actions/teacherActions'
 
 import './LandingPage.scss'
 
@@ -13,8 +14,9 @@ class LandingPage extends Component {
   }
 
   componentWillMount() {
-    const { generateToken } = this.props
+    const { generateToken, getTeacher } = this.props
     generateToken()
+    getTeacher("a_constantinou@hotmail.co.uk")
   }
 
   handleDisconnect() {
@@ -53,16 +55,18 @@ LandingPage.propTypes = {
   generateToken: PropTypes.func.isRequired,
   connectToRoom: PropTypes.func.isRequired,
   hasJoinedRoom: PropTypes.bool.isRequired,
+  getTeacher: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state) {
   return {
     ...state.videoChat,
+    ...state.teacher,
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...videoChatActionCreators }, dispatch)
+  return bindActionCreators({ ...videoChatActionCreators, ...teacherActionCreators }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LandingPage)

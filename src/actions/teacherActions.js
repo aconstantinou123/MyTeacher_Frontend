@@ -14,10 +14,10 @@ export const getTeacherRejected = err => ({
   payload: err.message,
 })
 
-export const getTeacher = email => async (dispatch) => {
+export const getTeacher = username => async (dispatch) => {
   dispatch(getTeacherPending())
   try {
-    const response = await axios.get(`${process.env.TEACHER_URL}/email/${email}`)
+    const response = await axios.get(`${process.env.TEACHER_URL}/username/${username}`)
     dispatch(getTeacherFulfilled(response.data))
   } catch (err) {
     dispatch(getTeacherRejected(err))

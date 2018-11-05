@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import * as videoChatActionCreators from '../../actions/videoChatActions'
 import * as teacherActionCreators from '../../actions/teacherActions'
+import * as authenticationActionCreators from '../../actions/authenticationActions'
 
 import './LandingPage.scss'
 
@@ -14,9 +15,14 @@ class LandingPage extends Component {
   }
 
   componentWillMount() {
-    const { generateToken, getTeacher } = this.props
+    const { generateToken, teacherLogin } = this.props
     generateToken()
-    getTeacher('a_constantinou@hotmail.co.uk')
+    // getTeacher('a_constantinou@hotmail.co.uk')
+    const body = {
+      username: "zonio-strings",
+      password: "password"
+    }
+    teacherLogin(body)
   }
 
   handleDisconnect() {
@@ -55,7 +61,9 @@ LandingPage.propTypes = {
   generateToken: PropTypes.func.isRequired,
   connectToRoom: PropTypes.func.isRequired,
   hasJoinedRoom: PropTypes.bool.isRequired,
-  getTeacher: PropTypes.func.isRequired,
+  // getTeacher: PropTypes.func.isRequired,
+  teacherLogin : PropTypes.func.isRequired,
+  
 }
 
 function mapStateToProps(state) {
@@ -66,7 +74,11 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...videoChatActionCreators, ...teacherActionCreators }, dispatch)
+  return bindActionCreators({ 
+    ...videoChatActionCreators, 
+    ...teacherActionCreators,
+    ...authenticationActionCreators,
+   }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LandingPage)

@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import * as authenticationActionCreators from '../../actions/authenticationActions'
 
 class TeacherLogin extends Component {
-  constructor(){
+  constructor() {
     super()
     this.state = {
       username: '',
@@ -18,17 +18,17 @@ class TeacherLogin extends Component {
     this.showPassword = this.showPassword.bind(this)
   }
 
-  handleUsernameChange(event){
+  handleUsernameChange(event) {
     const { target } = event
     this.setState(prevState => ({ ...prevState, username: target.value }))
   }
 
-  handlePasswordChange(event){
+  handlePasswordChange(event) {
     const { target } = event
     this.setState(prevState => ({ ...prevState, password: target.value }))
   }
 
-  handleSubmit(event){
+  handleSubmit(event) {
     event.preventDefault()
     const { teacherLogin } = this.props
     const { username, password } = this.state
@@ -39,35 +39,37 @@ class TeacherLogin extends Component {
     teacherLogin(userInfo)
   }
 
-  showPassword(){
+  showPassword() {
     const { showPassword } = this.state
     this.setState(prevState => ({ ...prevState, showPassword: !showPassword }))
   }
 
-  render(){
+  render() {
     const { showPassword } = this.state
     return (
       <div>
         <h3>Teacher Login</h3>
         <form onSubmit={this.handleSubmit}>
-        <label htmlFor="username">
-          Username:{' '}
-          <input
-            id="username"
-            type="input"
-            onChange={this.handleUsernameChange}
-          />
+          <label htmlFor="username">
+          Username:
+            {' '}
+            <input
+              id="username"
+              type="input"
+              onChange={this.handleUsernameChange}
+            />
           </label>
           <label htmlFor="password">
-          Password:{' '}
-          <input
-            id="password"
-            type={showPassword ? 'input' : 'password'}
-            onChange={this.handlePasswordChange}
-          />
+          Password:
+            {' '}
+            <input
+              id="password"
+              type={showPassword ? 'input' : 'password'}
+              onChange={this.handlePasswordChange}
+            />
           </label>
           <button type="button" onClick={this.showPassword}>
-          {showPassword ? 'Hide Password' : 'Show Password'}
+            {showPassword ? 'Hide Password' : 'Show Password'}
           </button>
           <button type="submit">
             Submit

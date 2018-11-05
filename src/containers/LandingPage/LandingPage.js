@@ -19,8 +19,8 @@ class LandingPage extends Component {
     generateToken()
     // getTeacher('a_constantinou@hotmail.co.uk')
     const body = {
-      username: "zonio-strings",
-      password: "password"
+      username: 'zonio-strings',
+      password: 'password',
     }
     teacherLogin(body)
   }
@@ -62,8 +62,8 @@ LandingPage.propTypes = {
   connectToRoom: PropTypes.func.isRequired,
   hasJoinedRoom: PropTypes.bool.isRequired,
   // getTeacher: PropTypes.func.isRequired,
-  teacherLogin : PropTypes.func.isRequired,
-  
+  teacherLogin: PropTypes.func.isRequired,
+
 }
 
 function mapStateToProps(state) {
@@ -74,11 +74,11 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ 
-    ...videoChatActionCreators, 
+  return bindActionCreators({
+    ...videoChatActionCreators,
     ...teacherActionCreators,
     ...authenticationActionCreators,
-   }, dispatch)
+  }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LandingPage)

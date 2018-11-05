@@ -1,5 +1,6 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const webpack = require('webpack')
+const path = require('path')
 
 const htmlPlugin = new HtmlWebPackPlugin({
   template: "./src/index.html",
@@ -9,10 +10,17 @@ const htmlPlugin = new HtmlWebPackPlugin({
 const environmentVariables =  new webpack.EnvironmentPlugin({
   NODE_ENV: 'development',
   TWILIO_URL: 'http://localhost:3000',
-  TEACHER_URL: 'http://localhost:3001'
+  TEACHER_URL: 'http://localhost:3001',
+  JWT_SECRET: 'b3k60snNSUbtS4zidBgiYgSkXPMcdwta',
 })
 
 module.exports = {
+  mode: 'development',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'index_bundle.js',
+    publicPath: '/'
+  },
   module: {
     rules: [
       {
@@ -40,6 +48,9 @@ module.exports = {
       },
 
     ]
+  },
+  devServer: {
+    historyApiFallback: true,
   },
   plugins: [htmlPlugin, environmentVariables]
 }

@@ -6,9 +6,9 @@ import * as videoChatActionCreators from '../../actions/videoChatActions'
 import * as teacherActionCreators from '../../actions/teacherActions'
 import * as authenticationActionCreators from '../../actions/authenticationActions'
 
-import './LandingPage.scss'
+import './TeacherLandingPage.scss'
 
-class LandingPage extends Component {
+class TeacherLandingPage extends Component {
   constructor() {
     super()
     this.handleDisconnect = this.handleDisconnect.bind(this)
@@ -17,7 +17,6 @@ class LandingPage extends Component {
   componentWillMount() {
     const { generateToken, teacherLogin } = this.props
     generateToken()
-    // getTeacher('a_constantinou@hotmail.co.uk')
     const body = {
       username: 'zonio-strings',
       password: 'password',
@@ -51,11 +50,11 @@ Video Chat Test
   }
 }
 
-LandingPage.defaultProps = {
+TeacherLandingPage.defaultProps = {
   activeRoom: null,
 }
 
-LandingPage.propTypes = {
+TeacherLandingPage.propTypes = {
   activeRoom: PropTypes.object,
   disconnectFromRoom: PropTypes.func.isRequired,
   generateToken: PropTypes.func.isRequired,
@@ -81,4 +80,4 @@ function mapDispatchToProps(dispatch) {
   }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LandingPage)
+export default connect(mapStateToProps, mapDispatchToProps)(TeacherLandingPage)

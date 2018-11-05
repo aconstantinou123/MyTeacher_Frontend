@@ -1,8 +1,13 @@
 import React from 'react'
 import { Provider } from 'react-redux'
+import { Router } from 'react-router-dom'
 import createHistory from 'history/createBrowserHistory'
-import LandingPage from './containers/LandingPage/LandingPage'
+import axios from 'axios'
+import MainRoutes from './routes/MainRoutes'
 import store from './store/store'
+import { persistLogin } from './actions/authenticationActions'
+
+axios.defaults.withCredentials = true
 
 const history = createHistory()
 
@@ -15,9 +20,13 @@ history.listen((location) => {
   prevLocation = location
 })
 
+store.dispatch(persistLogin())
+
 const App = () => (
   <Provider store={store}>
-    <LandingPage />
+    <Router history={history}>
+      <MainRoutes history={history} />
+    </Router>
   </Provider>
 )
 

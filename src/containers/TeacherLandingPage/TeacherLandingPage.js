@@ -23,8 +23,7 @@ class TeacherLandingPage extends Component {
     return (
       <div className="test">
         <h1>
-Welcome
-          {teacher.firstName}
+Welcome {teacher.firstName}
         </h1>
         <div>
           <h2>My Students</h2>

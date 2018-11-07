@@ -6,7 +6,7 @@ import teacherAuthentication from './teacherAuthenticationReducer'
 const rootReducer = combineReducers({
   videoChat,
   teacher,
-  teacherAuthentication
+  teacherAuthentication,
 })
 
 export default rootReducer

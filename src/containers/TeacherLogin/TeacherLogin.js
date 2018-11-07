@@ -18,9 +18,9 @@ class TeacherLogin extends Component {
     this.showPassword = this.showPassword.bind(this)
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     const { teacher, history } = this.props
-    if(teacher !== nextProps.teacher){
+    if (teacher !== nextProps.teacher) {
       history.push('/teacher')
     }
   }
@@ -88,7 +88,7 @@ class TeacherLogin extends Component {
 }
 
 TeacherLogin.defaultProps = {
-  teacher: null
+  teacher: null,
 }
 
 TeacherLogin.propTypes = {

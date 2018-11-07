@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 import TeacherLandingPage from '../containers/TeacherLandingPage/TeacherLandingPage'
 import TeacherLogin from '../containers/TeacherLogin/TeacherLogin'
-import WelcomePage from '../containers/WelcomePage/WelcomePage';
+import WelcomePage from '../containers/WelcomePage/WelcomePage'
 
 const MainRoutes = ({ history }) => (
   <div>

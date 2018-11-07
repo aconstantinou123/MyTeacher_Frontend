@@ -1,5 +1,5 @@
 import {
-  TEACHER_LOGIN
+  TEACHER_LOGIN,
 } from '../types/types'
 
 const defaultState = {
@@ -8,12 +8,12 @@ const defaultState = {
   teacherLoginErr: null,
 }
 
-export default function(state = defaultState, action){
-  switch(action.type){
+export default function (state = defaultState, action) {
+  switch (action.type) {
     case `${TEACHER_LOGIN}_PENDING`:
       return {
         ...state,
-        teacherLoggingIn: true
+        teacherLoggingIn: true,
       }
     case `${TEACHER_LOGIN}_FULFILLED`:
       return {
@@ -27,7 +27,7 @@ export default function(state = defaultState, action){
         ...state,
         teacherLoggingIn: false,
         teacherLoggedIn: false,
-        teacherLoginErr: action.payload
+        teacherLoginErr: action.payload,
       }
     default:
       return state

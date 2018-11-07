@@ -5,10 +5,12 @@ import PropTypes from 'prop-types'
 
 import TeacherLandingPage from '../containers/TeacherLandingPage/TeacherLandingPage'
 import TeacherLogin from '../containers/TeacherLogin/TeacherLogin'
+import WelcomePage from '../containers/WelcomePage/WelcomePage';
 
 const MainRoutes = ({ history }) => (
   <div>
-    <Route history={history} exact path="/" component={TeacherLogin} />
+    <Route exact path="/" component={WelcomePage} />
+    <Route history={history} path="/login" component={TeacherLogin} />
     <Route history={history} path="/teacher" component={TeacherLandingPage} />
   </div>
 )

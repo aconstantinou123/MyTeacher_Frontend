@@ -18,6 +18,13 @@ class TeacherLogin extends Component {
     this.showPassword = this.showPassword.bind(this)
   }
 
+  componentWillReceiveProps(nextProps){
+    const { teacher, history } = this.props
+    if(teacher !== nextProps.teacher){
+      history.push('/teacher')
+    }
+  }
+
   handleUsernameChange(event) {
     const { target } = event
     this.setState(prevState => ({ ...prevState, username: target.value }))
@@ -80,13 +87,20 @@ class TeacherLogin extends Component {
   }
 }
 
+TeacherLogin.defaultProps = {
+  teacher: null
+}
+
 TeacherLogin.propTypes = {
   teacherLogin: PropTypes.func.isRequired,
+  teacher: PropTypes.object,
+  history: PropTypes.object.isRequired,
 }
 
 function mapStateToProps(state) {
   return {
     ...state.teacher,
+    ...state.teacherAuthentication,
   }
 }
 

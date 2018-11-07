@@ -10,10 +10,9 @@ import * as authenticationActionCreators from '../../actions/authenticationActio
 import './TeacherLandingPage.scss'
 
 class TeacherLandingPage extends Component {
-
   componentWillMount() {
     const { generateToken, history, teacher } = this.props
-    if(!teacher){
+    if (!teacher) {
       history.push('/login')
     }
     generateToken()
@@ -23,7 +22,10 @@ class TeacherLandingPage extends Component {
     const { teacher } = this.props
     return (
       <div className="test">
-      <h1>Welcome {teacher.firstName}</h1>
+        <h1>
+Welcome
+          {teacher.firstName}
+        </h1>
         <div>
           <h2>My Students</h2>
           <Link to="class">Start Class</Link>

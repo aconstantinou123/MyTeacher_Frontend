@@ -7,6 +7,7 @@ import TeacherLandingPage from '../containers/TeacherLandingPage/TeacherLandingP
 import TeacherLogin from '../containers/TeacherLogin/TeacherLogin'
 import WelcomePage from '../containers/WelcomePage/WelcomePage'
 import VirtualClassroom from '../containers/VirtualClassroom/VirtualClassroom'
+import StudentRecords from '../containers/StudentRecords/StudentRecords'
 
 const MainRoutes = ({ history }) => (
   <div>
@@ -14,6 +15,7 @@ const MainRoutes = ({ history }) => (
     <Route history={history} path="/login" component={TeacherLogin} />
     <Route history={history} path="/teacher" component={TeacherLandingPage} />
     <Route history={history} path="/class" component={VirtualClassroom} />
+    <Route history={history} path="/student-records" component={StudentRecords} />
   </div>
 )
 

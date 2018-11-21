@@ -12,25 +12,17 @@ import './TeacherLandingPage.scss'
 
 class TeacherLandingPage extends Component {
   componentWillMount() {
-    const { 
-      generateToken, 
-      // history, 
-      // teacher, 
-      // teacherFetching, 
-      // getStudentRecords, 
+    const {
+      generateToken,
     } = this.props
-    // if (!teacherFetching) {
-    //   history.push('/login')
-    // 
     generateToken()
-    // getStudentRecords(teacher.username)
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     const { getStudentRecords, teacherFetched } = this.props
-    if(!teacherFetched && 
-      nextProps.teacherFetched){
-        console.log('here')
+    if (!teacherFetched
+      && nextProps.teacherFetched) {
+      console.log('here')
       getStudentRecords(nextProps.teacher.username)
     }
   }
@@ -39,19 +31,21 @@ class TeacherLandingPage extends Component {
     const { teacher } = this.props
     return (
       <div className="test">
-      {
-        teacher &&
+        {
+        teacher
+        && (
         <div>
-        <h1>
+          <h1>
 Welcome
-          {' '}
-          {teacher.firstName}
-        </h1>
-        <div>
-          <h2>My Students</h2>
-          <Link to="class">Start Class</Link>
+            {' '}
+            {teacher.firstName}
+          </h1>
+          <div>
+            <h2>My Students</h2>
+            <Link to="class">Start Class</Link>
+          </div>
         </div>
-        </div>
+        )
 
       }
       </div>
@@ -59,7 +53,7 @@ Welcome
   }
 }
 TeacherLandingPage.defaultProps = {
-  teacher: null
+  teacher: null,
 }
 
 
@@ -67,17 +61,14 @@ TeacherLandingPage.propTypes = {
   generateToken: PropTypes.func.isRequired,
   teacher: PropTypes.object,
   teacherFetched: PropTypes.bool.isRequired,
-  // history: PropTypes.object.isRequired,
   getStudentRecords: PropTypes.func.isRequired,
-  // studentRecordsFetched: PropTypes.bool.isRequired,
-  // studentRecordsFetching: PropTypes.bool.isRequired,
 }
 
 function mapStateToProps(state) {
   return {
     ...state.videoChat,
     ...state.teacher,
-    ...state.studentRecords
+    ...state.studentRecords,
   }
 }
 

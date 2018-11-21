@@ -9,12 +9,12 @@ const defaultState = {
   studentRecordsErr: null,
 }
 
-export default function(state = defaultState, action){
-  switch(action.type){
+export default function (state = defaultState, action) {
+  switch (action.type) {
     case `${GET_STUDENT_RECORDS}_PENDING`:
       return {
         ...state,
-        studentRecordsFetching: true
+        studentRecordsFetching: true,
       }
     case `${GET_STUDENT_RECORDS}_FULFILLED`:
       return {
@@ -30,7 +30,7 @@ export default function(state = defaultState, action){
         studentRecordsFetched: false,
         studentRecordsErr: action.payload,
       }
-    default: 
+    default:
       return state
   }
 }

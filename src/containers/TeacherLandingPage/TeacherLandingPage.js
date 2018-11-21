@@ -12,18 +12,24 @@ import './TeacherLandingPage.scss'
 
 class TeacherLandingPage extends Component {
   componentWillMount() {
+    const { teacher, getStudentRecords } = this.props
     const {
       generateToken,
     } = this.props
     generateToken()
+    if(teacher){
+      getStudentRecords(teacher.username)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { getStudentRecords, teacherFetched } = this.props
+    const { getStudentRecords, teacherFetched, teacherLoginErr, history } = this.props
     if (!teacherFetched
       && nextProps.teacherFetched) {
-      console.log('here')
       getStudentRecords(nextProps.teacher.username)
+    }
+    if(!teacherLoginErr && nextProps.teacherLoginErr){
+      history.push('/login')
     }
   }
 
@@ -54,10 +60,13 @@ Welcome
 }
 TeacherLandingPage.defaultProps = {
   teacher: null,
+  teacherLoginErr: null,
 }
 
 
 TeacherLandingPage.propTypes = {
+  history: PropTypes.object.isRequired,
+  teacherLoginErr: PropTypes.string,
   generateToken: PropTypes.func.isRequired,
   teacher: PropTypes.object,
   teacherFetched: PropTypes.bool.isRequired,
@@ -68,6 +77,7 @@ function mapStateToProps(state) {
   return {
     ...state.videoChat,
     ...state.teacher,
+    ...state.teacherAuthentication,
     ...state.studentRecords,
   }
 }

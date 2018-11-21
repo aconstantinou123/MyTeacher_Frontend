@@ -17,18 +17,20 @@ class TeacherLandingPage extends Component {
       generateToken,
     } = this.props
     generateToken()
-    if(teacher){
+    if (teacher) {
       getStudentRecords(teacher.username)
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { getStudentRecords, teacherFetched, teacherLoginErr, history } = this.props
+    const {
+      getStudentRecords, teacherFetched, teacherLoginErr, history,
+    } = this.props
     if (!teacherFetched
       && nextProps.teacherFetched) {
       getStudentRecords(nextProps.teacher.username)
     }
-    if(!teacherLoginErr && nextProps.teacherLoginErr){
+    if (!teacherLoginErr && nextProps.teacherLoginErr) {
       history.push('/login')
     }
   }

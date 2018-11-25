@@ -9,7 +9,7 @@ import {
 
 export const teacherLoginPending = () => ({ type: `${TEACHER_LOGIN}_PENDING` })
 export const teacherLoginFulfilled = payload => ({
-  type: `${TEACHER_LOGIN}_FULFILLD`,
+  type: `${TEACHER_LOGIN}_FULFILLED`,
   payload,
 })
 export const teacherLoginRejected = err => ({

@@ -25,7 +25,8 @@ store.dispatch(persistLogin())
 const App = () => (
   <Provider store={store}>
     <Router history={history}>
-      <MainRoutes history={history} />
+      <MainRoutes 
+      history={history} />
     </Router>
   </Provider>
 )

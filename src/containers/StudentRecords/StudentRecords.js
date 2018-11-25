@@ -1,7 +1,7 @@
 import React from 'react'
 
 const StudentRecords = () => (
-  <div>Records</div>
+  <div> Student Records</div>
 )
 
 export default StudentRecords

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
 import PropTypes from 'prop-types'
 
@@ -8,14 +8,17 @@ import TeacherLogin from '../containers/TeacherLogin/TeacherLogin'
 import WelcomePage from '../containers/WelcomePage/WelcomePage'
 import VirtualClassroom from '../containers/VirtualClassroom/VirtualClassroom'
 import StudentRecords from '../containers/StudentRecords/StudentRecords'
+import PrivateRoute from './PrivateRoute';
 
 const MainRoutes = ({ history }) => (
   <div>
+    <Switch>
     <Route exact path="/" component={WelcomePage} />
     <Route history={history} path="/login" component={TeacherLogin} />
-    <Route history={history} path="/teacher" component={TeacherLandingPage} />
-    <Route history={history} path="/class" component={VirtualClassroom} />
-    <Route history={history} path="/student-records" component={StudentRecords} />
+    <PrivateRoute history={history} path="/teacher" ComponentToRender={TeacherLandingPage} />
+    <PrivateRoute history={history} path="/class" ComponentToRender={VirtualClassroom} />
+    <PrivateRoute path="/student-records" ComponentToRender={StudentRecords} />
+    </Switch>
   </div>
 )
 

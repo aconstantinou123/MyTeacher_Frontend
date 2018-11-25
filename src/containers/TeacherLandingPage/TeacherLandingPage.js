@@ -22,19 +22,6 @@ class TeacherLandingPage extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {
-      getStudentRecords, teacherFetched, teacherLoginErr, history,
-    } = this.props
-    if (!teacherFetched
-      && nextProps.teacherFetched) {
-      getStudentRecords(nextProps.teacher.username)
-    }
-    if (!teacherLoginErr && nextProps.teacherLoginErr) {
-      history.push('/login')
-    }
-  }
-
   render() {
     const { teacher } = this.props
     return (
@@ -49,7 +36,8 @@ Welcome
             {teacher.firstName}
           </h1>
           <div>
-            <h2>My Students</h2>
+            <Link to="/student-records">My Students</Link>
+            <br/>
             <Link to="class">Start Class</Link>
           </div>
         </div>
@@ -62,16 +50,12 @@ Welcome
 }
 TeacherLandingPage.defaultProps = {
   teacher: null,
-  teacherLoginErr: null,
 }
 
 
 TeacherLandingPage.propTypes = {
-  history: PropTypes.object.isRequired,
-  teacherLoginErr: PropTypes.string,
   generateToken: PropTypes.func.isRequired,
   teacher: PropTypes.object,
-  teacherFetched: PropTypes.bool.isRequired,
   getStudentRecords: PropTypes.func.isRequired,
 }
 

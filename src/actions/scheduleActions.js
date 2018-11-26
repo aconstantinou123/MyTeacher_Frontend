@@ -18,15 +18,28 @@ export const selectSlot = (date, hour) => ({
 
 export const setInitialDate = () => {
   const daysOfTheWeek = _.range(0, 7, 1)
+  const hours = _.range(6, 24, 1)
   const currentDatesArray = daysOfTheWeek.map((day) => {
     const newDay = moment().startOf('isoWeek').clone()
     return newDay.add(day, 'day')
+  })
+  const schedule = currentDatesArray.map(slotDate => {
+    return {
+      date: slotDate,
+      slots: hours.map(hour => {
+          return {
+            dateOfSlot: slotDate.format('dddd Do MMM YYYY'),
+            timeOfSlot: `${hour}:00`
+          }
+        })
+    }
   })
   return {
     type: SET_INITIAL_DATE,
     payload: {
       initialDate: moment().startOf('isoWeek'),
       currentDatesArray,
+      schedule,
     },
   }
 }

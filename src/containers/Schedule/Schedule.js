@@ -44,7 +44,7 @@ class Schedule extends Component {
     const { currentDates } = this.props
     return currentDates.map(date => (
       <td key={date}>
-        <button type="button" onClick={() => this.bookSlot(slotHour, date)}>Free Slot</button>
+        <button type="button" onClick={() => this.bookSlot(slotHour, date)}>Free Slot {slotHour}</button>
       </td>
     ))
   }

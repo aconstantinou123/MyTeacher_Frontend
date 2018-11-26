@@ -8,9 +8,16 @@ import * as scheduleActionCreators from '../../actions/scheduleActions'
 class Schedule extends Component {
   constructor() {
     super()
+    // this.state = {
+    //   selectedSlotDate: null,
+    //   selectedSlotTime: null,
+    // }
     this.renderWeek = this.renderWeek.bind(this)
     this.advanceOneWeek = this.advanceOneWeek.bind(this)
     this.goBackOneWeek = this.goBackOneWeek.bind(this)
+    this.renderTime = this.renderTime.bind(this)
+    this.mapSlots = this.mapSlots.bind(this)
+    this.bookSlot = this.bookSlot.bind(this)
   }
 
   componentWillMount() {
@@ -28,12 +35,43 @@ class Schedule extends Component {
     goBackOneCalenderWeek()
   }
 
+  bookSlot(slotHour, date){
+    const { selectSlot } = this.props
+    selectSlot(date, slotHour)
+  }
+
+  mapSlots(slotHour){
+    const { currentDates } = this.props
+    return  currentDates.map((date) => {
+      return (
+        <td key={date}>
+          <button type='button' onClick={() => this.bookSlot(slotHour, date)}>Free Slot</button>
+        </td>
+        )
+        
+    })
+  }
+
   renderWeek() {
-    const { initialDate } = this.props
-    const daysOfTheWeek = _.range(0, 7, 1)
-    return daysOfTheWeek.map((day) => {
-      const newDay = initialDate.clone()
-      return <th key={day}>{newDay.add(day, 'day').format('dddd Do MMM').toString()}</th>
+    const { currentDates } = this.props
+    return currentDates.map((date) => {
+      return (
+      <th key={date}>{date.format('dddd Do MMM').toString()}</th>
+      )
+    })   
+  }
+
+  renderTime() {
+    const hours = _.range(6, 24, 1)
+    return hours.map(hour => {
+      return (
+          <tr key ={hour}>
+            <td>
+              {hour}.00hr
+            </td>
+            {this.mapSlots(hour)}
+        </tr> 
+        )
     })
   }
 
@@ -48,10 +86,12 @@ class Schedule extends Component {
             && (
             <div>
               <table>
-                <tbody>
-                  <tr>
-                    {this.renderWeek()}
-                  </tr>
+                <tbody>                 
+                    <tr>
+                      <th>Time</th>
+                      {this.renderWeek()}
+                    </tr>
+                    {this.renderTime()}
                 </tbody>
               </table>
               <button type="button" onClick={this.goBackOneWeek}>Previous Week</button>
@@ -67,6 +107,7 @@ class Schedule extends Component {
 
 Schedule.defaultProps = {
   initialDate: null,
+  currentDates: null,
 }
 
 Schedule.propTypes = {
@@ -74,6 +115,8 @@ Schedule.propTypes = {
   initialDate: PropTypes.object,
   advanceCalenderOneWeek: PropTypes.func.isRequired,
   goBackOneCalenderWeek: PropTypes.func.isRequired,
+  currentDates: PropTypes.arrayOf(PropTypes.object),
+  selectSlot: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state) {

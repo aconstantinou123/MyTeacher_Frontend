@@ -11,7 +11,7 @@ const defaultState = {
   selectedSlot: {
     date: null,
     hour: null,
-  }
+  },
 }
 
 export default function (state = defaultState, action) {
@@ -26,17 +26,13 @@ export default function (state = defaultState, action) {
       return {
         ...state,
         initialDate: state.initialDate.clone().add(7, 'days'),
-        currentDates: state.currentDates.map(date => {
-          return date.clone().add(7, 'days')
-        })
+        currentDates: state.currentDates.map(date => date.clone().add(7, 'days')),
       }
     case GO_BACK_ONE_WEEK:
       return {
         ...state,
         initialDate: state.initialDate.clone().subtract(7, 'days'),
-        currentDates: state.currentDates.map(date => {
-          return date.clone().subtract(7, 'days')
-        })
+        currentDates: state.currentDates.map(date => date.clone().subtract(7, 'days')),
       }
     case SELECT_SLOT:
       return {
@@ -45,7 +41,7 @@ export default function (state = defaultState, action) {
           ...state.selectedSlot,
           date: action.payload.date,
           hour: action.payload.hour,
-        }
+        },
       }
     default:
       return state

@@ -8,28 +8,26 @@ import {
   SELECT_SLOT,
 } from '../types/types'
 
-export const selectSlot = (date, hour) => {
-  return {
-    type: SELECT_SLOT,
-    payload: {
-      date,
-      hour,
-    }
-  }
-}
+export const selectSlot = (date, hour) => ({
+  type: SELECT_SLOT,
+  payload: {
+    date,
+    hour,
+  },
+})
 
 export const setInitialDate = () => {
   const daysOfTheWeek = _.range(0, 7, 1)
   const currentDatesArray = daysOfTheWeek.map((day) => {
     const newDay = moment().startOf('isoWeek').clone()
     return newDay.add(day, 'day')
-  }) 
+  })
   return {
-  type: SET_INITIAL_DATE,
-  payload: {
-    initialDate: moment().startOf('isoWeek'),
-    currentDatesArray,    
-    }
+    type: SET_INITIAL_DATE,
+    payload: {
+      initialDate: moment().startOf('isoWeek'),
+      currentDatesArray,
+    },
   }
 }
 

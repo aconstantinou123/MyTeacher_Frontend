@@ -35,44 +35,38 @@ class Schedule extends Component {
     goBackOneCalenderWeek()
   }
 
-  bookSlot(slotHour, date){
+  bookSlot(slotHour, date) {
     const { selectSlot } = this.props
     selectSlot(date, slotHour)
   }
 
-  mapSlots(slotHour){
+  mapSlots(slotHour) {
     const { currentDates } = this.props
-    return  currentDates.map((date) => {
-      return (
-        <td key={date}>
-          <button type='button' onClick={() => this.bookSlot(slotHour, date)}>Free Slot</button>
-        </td>
-        )
-        
-    })
+    return currentDates.map(date => (
+      <td key={date}>
+        <button type="button" onClick={() => this.bookSlot(slotHour, date)}>Free Slot</button>
+      </td>
+    ))
   }
 
   renderWeek() {
     const { currentDates } = this.props
-    return currentDates.map((date) => {
-      return (
+    return currentDates.map(date => (
       <th key={date}>{date.format('dddd Do MMM').toString()}</th>
-      )
-    })   
+    ))
   }
 
   renderTime() {
     const hours = _.range(6, 24, 1)
-    return hours.map(hour => {
-      return (
-          <tr key ={hour}>
-            <td>
-              {hour}.00hr
-            </td>
-            {this.mapSlots(hour)}
-        </tr> 
-        )
-    })
+    return hours.map(hour => (
+      <tr key={hour}>
+        <td>
+          {hour}
+.00hr
+        </td>
+        {this.mapSlots(hour)}
+      </tr>
+    ))
   }
 
 
@@ -86,12 +80,12 @@ class Schedule extends Component {
             && (
             <div>
               <table>
-                <tbody>                 
-                    <tr>
-                      <th>Time</th>
-                      {this.renderWeek()}
-                    </tr>
-                    {this.renderTime()}
+                <tbody>
+                  <tr>
+                    <th>Time</th>
+                    {this.renderWeek()}
+                  </tr>
+                  {this.renderTime()}
                 </tbody>
               </table>
               <button type="button" onClick={this.goBackOneWeek}>Previous Week</button>

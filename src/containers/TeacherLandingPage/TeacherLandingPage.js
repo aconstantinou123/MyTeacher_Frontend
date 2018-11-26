@@ -37,7 +37,9 @@ Welcome
           </h1>
           <div>
             <Link to="/student-records">My Students</Link>
-            <br/>
+            <br />
+            <Link to="/schedule">Schedule</Link>
+            <br />
             <Link to="class">Start Class</Link>
           </div>
         </div>

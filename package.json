@@ -42,6 +42,8 @@
     "history": "^4.7.2",
     "jest": "^23.6.0",
     "jsonwebtoken": "^8.3.0",
+    "lodash": "^4.17.11",
+    "moment": "^2.22.2",
     "prop-types": "^15.6.2",
     "randomstring": "^1.1.5",
     "react": "^16.6.0",

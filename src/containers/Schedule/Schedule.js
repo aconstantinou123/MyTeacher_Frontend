@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { Component } from 'react'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
@@ -9,15 +8,8 @@ import * as scheduleActionCreators from '../../actions/scheduleActions'
 class Schedule extends Component {
   constructor() {
     super()
-    // this.state = {
-    //   selectedSlotDate: null,
-    //   selectedSlotTime: null,
-    // }
-    this.renderWeek = this.renderWeek.bind(this)
     this.advanceOneWeek = this.advanceOneWeek.bind(this)
     this.goBackOneWeek = this.goBackOneWeek.bind(this)
-    this.renderTime = this.renderTime.bind(this)
-    this.mapSlots = this.mapSlots.bind(this)
     this.bookSlot = this.bookSlot.bind(this)
     this.renderSchedule = this.renderSchedule.bind(this)
     this.renderRow = this.renderRow.bind(this)
@@ -43,18 +35,6 @@ class Schedule extends Component {
     selectSlot(date, slotHour)
   }
 
-  mapSlots(slotHour) {
-    const { schedule } = this.props
-    return schedule.map(date => (
-      <td key={date.date.format('dddd Do MMM')}>
-        <button type="button" onClick={() => this.bookSlot(slotHour, date)}>
-Free Slot
-          {slotHour}
-        </button>
-      </td>
-    ))
-  }
-
   renderRow(slotIndex){
     const { schedule } = this.props
     return schedule.map((date, index) => {
@@ -66,16 +46,6 @@ Free Slot  {' '}
           {slotHour}
         </button>
         </td>
-      )
-    })
-  }
-
-  renderSlot(date){
-    return date.slots.map((slot, index) => {
-      return (
-        <tr>
-          {this.renderRow(index)}
-        </tr>
       )
     })
   }
@@ -110,35 +80,6 @@ Free Slot  {' '}
       </table>
       )
   }
-
-  renderWeek() {
-    const { schedule } = this.props
-    const mappedSchedule = schedule.map(date => {
-      return <th key={date.date.format('dddd Do MMM')}>{date.date.format('dddd Do MMM').toString()}</th>
-    })
-    return (
-      <tbody>
-        <tr>
-         {mappedSchedule}
-        </tr>
-          {this.renderTime()}
-      </tbody>
-    )
-  }
-
-  renderTime() {
-    const hours = _.range(6, 24, 1)
-    console.log(this)
-    return hours.map(hour => (
-      <tr>
-        <td>
-          {hour}
-.00hr
-        </td>
-      </tr>
-    ))
-  }
-
 
   render() {
     const { initialDate } = this.props

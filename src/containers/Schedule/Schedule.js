@@ -35,41 +35,40 @@ class Schedule extends Component {
     selectSlot(date, slotHour)
   }
 
-  renderRow(slotIndex){
+  renderRow(slotIndex) {
     const { schedule } = this.props
     return schedule.map((date, index) => {
       const slotHour = schedule[index].slots[slotIndex].timeOfSlot
       return (
         <td key={date.date}>
-           <button type="button" onClick={() => this.bookSlot(slotHour, date.date)}>
-Free Slot  {' '}
-          {slotHour}
-        </button>
+          <button type="button" onClick={() => this.bookSlot(slotHour, date.date)}>
+Free Slot
+            {' '}
+            {' '}
+            {slotHour}
+          </button>
         </td>
       )
     })
   }
 
-  renderSchedule(){
+  renderSchedule() {
     const { schedule } = this.props
-    const mappedHeaders = schedule.map(date => {
-      return <th key={date.date.format('dddd Do MMM')}>{date.date.format('dddd Do MMM').toString()}</th>
-    })
+    const mappedHeaders = schedule.map(date => <th key={date.date.format('dddd Do MMM')}>{date.date.format('dddd Do MMM').toString()}</th>)
     const numberOfSlots = _.range(0, 18, 1)
-    const mappedBody = numberOfSlots.map(number => {
-      return (
+    const mappedBody = numberOfSlots.map(number => (
       <tbody key={number}>
-          <tr>
-            <td>
-              {number + 6}:00
-            </td>
-            {this.renderRow(number)}
-          </tr>
+        <tr>
+          <td>
+            {number + 6}
+:00
+          </td>
+          {this.renderRow(number)}
+        </tr>
       </tbody>
-      )
-    })
-      return (
-        <table>
+    ))
+    return (
+      <table>
         <thead>
           <tr>
             <th>Time</th>
@@ -78,7 +77,7 @@ Free Slot  {' '}
         </thead>
         {mappedBody}
       </table>
-      )
+    )
   }
 
   render() {

@@ -1,0 +1,30 @@
+@import '../../colors.scss';
+
+.modal-popup {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: $translucent-black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .modal-content {
+    width: 500px;
+    height: 60%;
+    padding: 20px;
+    background-color: $off-white2;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+    .title{
+  
+    }
+  }
+}

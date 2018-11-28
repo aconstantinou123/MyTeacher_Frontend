@@ -6,7 +6,15 @@ import {
   GO_BACK_ONE_WEEK,
   GO_FORWARD_ONE_WEEK,
   SELECT_SLOT,
+  ALLOCATE_SLOT,
 } from '../types/types'
+
+export const allocateSlot = (updatedSchedule) => {
+  return {
+    type: ALLOCATE_SLOT,
+    payload: updatedSchedule,
+  }
+}
 
 export const selectSlot = (date, hour) => ({
   type: SELECT_SLOT,
@@ -28,12 +36,13 @@ export const setInitialDate = () => {
     slots: hours.map(hour => ({
       dateOfSlot: slotDate.format('dddd Do MMM YYYY'),
       timeOfSlot: `${hour}:00`,
+      classType: null,
     })),
   }))
   return {
     type: SET_INITIAL_DATE,
     payload: {
-      initialDate: moment().startOf('isoWeek'),
+      initialDate: moment().startOf('isoWeek').format('dddd Do MMM YYYY'),
       currentDatesArray,
       schedule,
     },

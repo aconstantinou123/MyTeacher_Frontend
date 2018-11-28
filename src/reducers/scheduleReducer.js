@@ -1,8 +1,14 @@
 import {
+  advanceSevenDays,
+  goBackSevenDays
+} from '../helperFunctions/timeFunctions'
+
+import {
   SET_INITIAL_DATE,
   GO_FORWARD_ONE_WEEK,
   GO_BACK_ONE_WEEK,
   SELECT_SLOT,
+  ALLOCATE_SLOT,
 } from '../types/types'
 
 const defaultState = {
@@ -27,12 +33,13 @@ export default function (state = defaultState, action) {
     case GO_FORWARD_ONE_WEEK:
       return {
         ...state,
-        initialDate: state.initialDate.clone().add(7, 'days'),
+        initialDate: advanceSevenDays(state.initialDate),
         currentDates: state.currentDates.map(date => date.clone().add(7, 'days')),
         schedule: state.schedule.map(date => ({
           date: date.date.clone().add(7, 'days'),
           slots: date.slots.map(slot => ({
             ...slot,
+            classType: null,
             dateOfSlot: date.date.clone().add(7, 'days').format('dddd Do MMM YYYY'),
           })),
         })),
@@ -40,12 +47,13 @@ export default function (state = defaultState, action) {
     case GO_BACK_ONE_WEEK:
       return {
         ...state,
-        initialDate: state.initialDate.clone().subtract(7, 'days'),
+        initialDate: goBackSevenDays(state.initialDate),
         currentDates: state.currentDates.map(date => date.clone().subtract(7, 'days')),
         schedule: state.schedule.map(date => ({
           date: date.date.clone().subtract(7, 'days'),
           slots: date.slots.map(slot => ({
             ...slot,
+            classType: null,
             dateOfSlot: date.date.clone().subtract(7, 'days').format('dddd Do MMM YYYY'),
           })),
         })),
@@ -59,6 +67,15 @@ export default function (state = defaultState, action) {
           hour: action.payload.hour,
 
         },
+      }
+    case ALLOCATE_SLOT:
+      return {
+        ...state,
+        schedule: action.payload,
+        selectedSlot: {
+          date: null,
+          hour: null,
+        }
       }
     default:
       return state

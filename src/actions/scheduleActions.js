@@ -9,12 +9,10 @@ import {
   ALLOCATE_SLOT,
 } from '../types/types'
 
-export const allocateSlot = (updatedSchedule) => {
-  return {
-    type: ALLOCATE_SLOT,
-    payload: updatedSchedule,
-  }
-}
+export const allocateSlot = updatedSchedule => ({
+  type: ALLOCATE_SLOT,
+  payload: updatedSchedule,
+})
 
 export const selectSlot = (date, hour) => ({
   type: SELECT_SLOT,

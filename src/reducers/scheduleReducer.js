@@ -1,6 +1,6 @@
 import {
   advanceSevenDays,
-  goBackSevenDays
+  goBackSevenDays,
 } from '../helperFunctions/timeFunctions'
 
 import {
@@ -75,7 +75,7 @@ export default function (state = defaultState, action) {
         selectedSlot: {
           date: null,
           hour: null,
-        }
+        },
       }
     default:
       return state

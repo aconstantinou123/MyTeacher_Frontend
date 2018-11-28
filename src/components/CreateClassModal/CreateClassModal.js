@@ -8,7 +8,7 @@ const CreateClassModal = ({ closeModal, allocateSlotClicked }) => (
     <div className="modal-content">
       <h2 className="title">Create Class</h2>
       <div className="buttons-container">
-        <button type="button" onClick={() => allocateSlotClicked("1On1")}>Allocate Slot</button>
+        <button type="button" onClick={() => allocateSlotClicked('1On1')}>Allocate Slot</button>
         <button type="button" onClick={() => closeModal()}>Back</button>
       </div>
     </div>

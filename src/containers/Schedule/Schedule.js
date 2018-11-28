@@ -3,7 +3,7 @@ import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import Slot from '../../components/Slot/Slot';
+import Slot from '../../components/Slot/Slot'
 import CreateClassModal from '../../components/CreateClassModal/CreateClassModal'
 import * as scheduleActionCreators from '../../actions/scheduleActions'
 
@@ -20,19 +20,19 @@ class Schedule extends Component {
     this.allocateSlotClicked = this.allocateSlotClicked.bind(this)
   }
 
-  
+
   componentWillMount() {
     const { setInitialDate } = this.props
     setInitialDate()
   }
-  
-  createClassClicked(){
+
+  createClassClicked() {
     this.setState(prevState => ({
       ...prevState,
       createClassModalClicked: !prevState.createClassModalClicked,
     }))
   }
-  
+
   advanceOneWeek() {
     const { advanceCalenderOneWeek } = this.props
     advanceCalenderOneWeek()
@@ -49,25 +49,23 @@ class Schedule extends Component {
     selectSlot(date, slotHour)
   }
 
-  allocateSlotClicked(classType){
+  allocateSlotClicked(classType) {
     const { selectedSlot, schedule } = this.props
     const dateToFind = selectedSlot.date.format('dddd Do MMM')
-    const updatedSchedule = schedule.map(date => {
-      if(dateToFind === date.date.format('dddd Do MMM')){
+    const updatedSchedule = schedule.map((date) => {
+      if (dateToFind === date.date.format('dddd Do MMM')) {
         return {
           ...date,
-          slots: date.slots.map(slot => {
-            if(selectedSlot.hour === slot.timeOfSlot){
+          slots: date.slots.map((slot) => {
+            if (selectedSlot.hour === slot.timeOfSlot) {
               return {
                 ...slot,
-                classType
+                classType,
               }
-            }
-            else return slot
-          })
+            } return slot
+          }),
         }
-      }
-      else return date
+      } return date
     })
     const { allocateSlot } = this.props
     allocateSlot(updatedSchedule)
@@ -81,10 +79,10 @@ class Schedule extends Component {
       return (
         <td key={date.date}>
           <Slot
-          slotHour={slotHour}
-          slot={schedule[index].slots[slotIndex]}
-          date={date}
-          selectSlot={this.selectSlot}
+            slotHour={slotHour}
+            slot={schedule[index].slots[slotIndex]}
+            date={date}
+            selectSlot={this.selectSlot}
           />
         </td>
       )
@@ -135,12 +133,14 @@ class Schedule extends Component {
             </div>
             )
           }
-          {
-            createClassModalClicked &&
-            <CreateClassModal 
-            allocateSlotClicked={this.allocateSlotClicked}
-            closeModal={this.createClassClicked}
+        {
+            createClassModalClicked
+            && (
+            <CreateClassModal
+              allocateSlotClicked={this.allocateSlotClicked}
+              closeModal={this.createClassClicked}
             />
+            )
           }
       </div>
 
@@ -151,7 +151,7 @@ class Schedule extends Component {
 Schedule.defaultProps = {
   initialDate: null,
   schedule: null,
-  selectedSlot: null
+  selectedSlot: null,
 }
 
 Schedule.propTypes = {

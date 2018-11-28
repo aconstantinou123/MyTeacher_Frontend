@@ -51,9 +51,9 @@ class Schedule extends Component {
 
   allocateSlotClicked(classType) {
     const { selectedSlot, schedule } = this.props
-    const dateToFind = selectedSlot.date.format('dddd Do MMM')
+    const dateToFind = selectedSlot.date
     const updatedSchedule = schedule.map((date) => {
-      if (dateToFind === date.date.format('dddd Do MMM')) {
+      if (dateToFind === date.date) {
         return {
           ...date,
           slots: date.slots.map((slot) => {
@@ -91,7 +91,7 @@ class Schedule extends Component {
 
   renderSchedule() {
     const { schedule } = this.props
-    const mappedHeaders = schedule.map(date => <th key={date.date.format('dddd Do MMM')}>{date.date.format('dddd Do MMM').toString()}</th>)
+    const mappedHeaders = schedule.map(date => <th key={date.date}>{date.date}</th>)
     const numberOfSlots = _.range(0, 18, 1)
     const mappedBody = numberOfSlots.map(number => (
       <tbody key={number}>

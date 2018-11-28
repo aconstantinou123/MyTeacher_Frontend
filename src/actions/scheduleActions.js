@@ -27,12 +27,12 @@ export const setInitialDate = () => {
   const hours = _.range(6, 24, 1)
   const currentDatesArray = daysOfTheWeek.map((day) => {
     const newDay = moment().startOf('isoWeek').clone()
-    return newDay.add(day, 'day')
+    return newDay.add(day, 'day').format('dddd Do MMM YYYY')
   })
   const schedule = currentDatesArray.map(slotDate => ({
     date: slotDate,
     slots: hours.map(hour => ({
-      dateOfSlot: slotDate.format('dddd Do MMM YYYY'),
+      dateOfSlot: slotDate,
       timeOfSlot: `${hour}:00`,
       classType: null,
     })),

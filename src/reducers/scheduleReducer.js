@@ -34,13 +34,13 @@ export default function (state = defaultState, action) {
       return {
         ...state,
         initialDate: advanceSevenDays(state.initialDate),
-        currentDates: state.currentDates.map(date => date.clone().add(7, 'days')),
+        currentDates: state.currentDates.map(date => advanceSevenDays(date)),
         schedule: state.schedule.map(date => ({
-          date: date.date.clone().add(7, 'days'),
+          date: advanceSevenDays(date.date),
           slots: date.slots.map(slot => ({
             ...slot,
             classType: null,
-            dateOfSlot: date.date.clone().add(7, 'days').format('dddd Do MMM YYYY'),
+            dateOfSlot: advanceSevenDays(date.date),
           })),
         })),
       }
@@ -48,13 +48,13 @@ export default function (state = defaultState, action) {
       return {
         ...state,
         initialDate: goBackSevenDays(state.initialDate),
-        currentDates: state.currentDates.map(date => date.clone().subtract(7, 'days')),
+        currentDates: state.currentDates.map(date => goBackSevenDays(date)),
         schedule: state.schedule.map(date => ({
-          date: date.date.clone().subtract(7, 'days'),
+          date: goBackSevenDays(date.date),
           slots: date.slots.map(slot => ({
             ...slot,
             classType: null,
-            dateOfSlot: date.date.clone().subtract(7, 'days').format('dddd Do MMM YYYY'),
+            dateOfSlot: goBackSevenDays(date.date),
           })),
         })),
       }

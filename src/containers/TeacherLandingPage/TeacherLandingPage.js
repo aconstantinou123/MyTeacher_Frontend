@@ -7,18 +7,36 @@ import * as videoChatActionCreators from '../../actions/videoChatActions'
 import * as teacherActionCreators from '../../actions/teacherActions'
 import * as authenticationActionCreators from '../../actions/authenticationActions'
 import * as studentRecordActionCreators from '../../actions/studentRecordActions'
+import * as scheduleActionCreators from '../../actions/scheduleActions'
 
 import './TeacherLandingPage.scss'
 
 class TeacherLandingPage extends Component {
   componentWillMount() {
-    const { teacher, getStudentRecords } = this.props
     const {
+      teacher,
+      getStudentRecords,
+      getSchedule,
       generateToken,
     } = this.props
     generateToken()
     if (teacher) {
+      getSchedule(teacher.username)
       getStudentRecords(teacher.username)
+    }
+  }
+
+  componentWillReceiveProps(nextProps){
+    const {
+      teacher,
+      getStudentRecords,
+      getSchedule,
+    } = this.props
+    const teacherReady = (teacher !== nextProps.teacher &&
+    nextProps.teacher.username !== null)
+    if(teacherReady){
+      getSchedule(nextProps.teacher.username)
+      getStudentRecords(nextProps.teacher.username)
     }
   }
 
@@ -56,6 +74,7 @@ TeacherLandingPage.defaultProps = {
 
 
 TeacherLandingPage.propTypes = {
+  getSchedule: PropTypes.func.isRequired,
   generateToken: PropTypes.func.isRequired,
   teacher: PropTypes.object,
   getStudentRecords: PropTypes.func.isRequired,
@@ -67,6 +86,7 @@ function mapStateToProps(state) {
     ...state.teacher,
     ...state.teacherAuthentication,
     ...state.studentRecords,
+    ...state.schedule,
   }
 }
 
@@ -76,6 +96,7 @@ function mapDispatchToProps(dispatch) {
     ...teacherActionCreators,
     ...authenticationActionCreators,
     ...studentRecordActionCreators,
+    ...scheduleActionCreators,
   }, dispatch)
 }
 

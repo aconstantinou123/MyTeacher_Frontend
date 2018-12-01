@@ -20,10 +20,28 @@ class Schedule extends Component {
     this.allocateSlotClicked = this.allocateSlotClicked.bind(this)
   }
 
-
   componentWillMount() {
-    const { setInitialDate } = this.props
+    const {
+      teacher,
+      getSchedule,
+      setInitialDate
+    } = this.props
     setInitialDate()
+    if (teacher) {
+      getSchedule(teacher.username)
+    }
+  }
+
+  componentWillReceiveProps(nextProps){
+    const {
+      teacher,
+      getSchedule,
+    } = this.props
+    const teacherReady = (teacher !== nextProps.teacher &&
+    nextProps.teacher.username !== null)
+    if(teacherReady){
+      getSchedule(nextProps.teacher.username)
+    }
   }
 
   createClassClicked() {
@@ -68,7 +86,7 @@ class Schedule extends Component {
       } return date
     })
     const { allocateSlot } = this.props
-    allocateSlot(updatedSchedule)
+    allocateSlot(updatedSchedule, selectedSlot)
     this.createClassClicked()
   }
 
@@ -152,9 +170,12 @@ Schedule.defaultProps = {
   initialDate: null,
   schedule: null,
   selectedSlot: null,
+  teacher: null
 }
 
 Schedule.propTypes = {
+  teacher: PropTypes.object,
+  getSchedule: PropTypes.func.isRequired,
   selectedSlot: PropTypes.object,
   setInitialDate: PropTypes.func.isRequired,
   initialDate: PropTypes.string,
@@ -168,6 +189,7 @@ Schedule.propTypes = {
 function mapStateToProps(state) {
   return {
     ...state.schedule,
+    ...state.teacher,
   }
 }
 

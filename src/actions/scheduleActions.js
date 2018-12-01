@@ -1,5 +1,6 @@
 import moment from 'moment'
 import _ from 'lodash'
+import axios from 'axios'
 
 import {
   SET_INITIAL_DATE,
@@ -7,12 +8,38 @@ import {
   GO_FORWARD_ONE_WEEK,
   SELECT_SLOT,
   ALLOCATE_SLOT,
+  GET_SCHEDULE,
 } from '../types/types'
 
-export const allocateSlot = updatedSchedule => ({
-  type: ALLOCATE_SLOT,
-  payload: updatedSchedule,
+export const getSchedulePending = () => ({ type: `${GET_SCHEDULE}_PENDING` })
+export const getScheduleFulfilled = payload => ({
+  type: `${GET_SCHEDULE}_FULFILLED`,
+  payload,
 })
+export const getScheduleRejected = err => ({
+  type: `${GET_SCHEDULE}_REJECTED`,
+  payload: err.message,
+})
+
+export const getSchedule = username => async (dispatch) => {
+  dispatch(getSchedulePending())
+  try{
+    const response = await axios.get(`${process.env.SCHEDULE_URL}/${username}`)
+    console.log(response.data)
+    dispatch(getScheduleFulfilled(response.data))
+  }
+  catch(err){
+    dispatch(getScheduleRejected(err))
+  }
+}
+
+export const allocateSlot = (updatedSchedule, selectedSlot) => {
+  console.log(selectedSlot)
+  return {
+    type: ALLOCATE_SLOT,
+    payload: updatedSchedule,
+  }  
+}
 
 export const selectSlot = (date, hour) => ({
   type: SELECT_SLOT,

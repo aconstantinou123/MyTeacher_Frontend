@@ -12,6 +12,7 @@ const environmentVariables =  new webpack.EnvironmentPlugin({
   TWILIO_URL: 'http://localhost:3000',
   TEACHER_URL: 'http://localhost:3001',
   STUDENT_RECORD_URL: 'http://localhost:3003',
+  SCHEDULE_URL: 'http://localhost:3004',
   JWT_SECRET: 'b3k60snNSUbtS4zidBgiYgSkXPMcdwta',
 })
 

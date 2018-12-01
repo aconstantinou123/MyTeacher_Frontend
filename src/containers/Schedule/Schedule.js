@@ -24,7 +24,7 @@ class Schedule extends Component {
     const {
       teacher,
       getSchedule,
-      setInitialDate
+      setInitialDate,
     } = this.props
     setInitialDate()
     if (teacher) {
@@ -32,14 +32,14 @@ class Schedule extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     const {
       teacher,
       getSchedule,
     } = this.props
-    const teacherReady = (teacher !== nextProps.teacher &&
-    nextProps.teacher.username !== null)
-    if(teacherReady){
+    const teacherReady = (teacher !== nextProps.teacher
+    && nextProps.teacher.username !== null)
+    if (teacherReady) {
       getSchedule(nextProps.teacher.username)
     }
   }
@@ -170,7 +170,7 @@ Schedule.defaultProps = {
   initialDate: null,
   schedule: null,
   selectedSlot: null,
-  teacher: null
+  teacher: null,
 }
 
 Schedule.propTypes = {

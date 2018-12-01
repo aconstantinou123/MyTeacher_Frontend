@@ -23,12 +23,11 @@ export const getScheduleRejected = err => ({
 
 export const getSchedule = username => async (dispatch) => {
   dispatch(getSchedulePending())
-  try{
+  try {
     const response = await axios.get(`${process.env.SCHEDULE_URL}/${username}`)
     console.log(response.data)
     dispatch(getScheduleFulfilled(response.data))
-  }
-  catch(err){
+  } catch (err) {
     dispatch(getScheduleRejected(err))
   }
 }
@@ -38,7 +37,7 @@ export const allocateSlot = (updatedSchedule, selectedSlot) => {
   return {
     type: ALLOCATE_SLOT,
     payload: updatedSchedule,
-  }  
+  }
 }
 
 export const selectSlot = (date, hour) => ({

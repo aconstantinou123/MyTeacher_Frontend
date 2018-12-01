@@ -26,15 +26,15 @@ class TeacherLandingPage extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     const {
       teacher,
       getStudentRecords,
       getSchedule,
     } = this.props
-    const teacherReady = (teacher !== nextProps.teacher &&
-    nextProps.teacher.username !== null)
-    if(teacherReady){
+    const teacherReady = (teacher !== nextProps.teacher
+    && nextProps.teacher.username !== null)
+    if (teacherReady) {
       getSchedule(nextProps.teacher.username)
       getStudentRecords(nextProps.teacher.username)
     }

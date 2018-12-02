@@ -76,7 +76,7 @@ class Schedule extends Component {
         return {
           ...date,
           slots: date.slots.map((slot) => {
-            if (selectedSlot.hour === slot.timeOfSlot) {
+            if (selectedSlot.hour === slot.hour) {
               return {
                 ...slot,
                 classType,
@@ -94,7 +94,7 @@ class Schedule extends Component {
   renderRow(slotIndex) {
     const { schedule } = this.props
     return schedule.map((date, index) => {
-      const slotHour = schedule[index].slots[slotIndex].timeOfSlot
+      const slotHour = schedule[index].slots[slotIndex].hour
       return (
         <td key={date.date}>
           <Slot

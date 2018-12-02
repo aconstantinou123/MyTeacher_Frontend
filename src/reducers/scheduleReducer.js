@@ -30,7 +30,7 @@ export default function (state = defaultState, action) {
     case `${GET_SCHEDULE}_PENDING`:
       return {
         ...state,
-        fetchingSchedule: true
+        fetchingSchedule: true,
       }
     case `${GET_SCHEDULE}_FULFILLED`:
       return {
@@ -45,7 +45,7 @@ export default function (state = defaultState, action) {
         ...state,
         fetchingSchedule: false,
         fetchedSchedule: false,
-        scheduleError: action.payload
+        scheduleError: action.payload,
       }
     case SET_INITIAL_DATE:
       return {
@@ -64,7 +64,7 @@ export default function (state = defaultState, action) {
           slots: date.slots.map(slot => ({
             ...slot,
             classType: null,
-            dateOfSlot: advanceSevenDays(date.date),
+            date: advanceSevenDays(date.date),
           })),
         })),
       }
@@ -78,7 +78,7 @@ export default function (state = defaultState, action) {
           slots: date.slots.map(slot => ({
             ...slot,
             classType: null,
-            dateOfSlot: goBackSevenDays(date.date),
+            date: goBackSevenDays(date.date),
           })),
         })),
       }

@@ -29,32 +29,29 @@ export const getSchedule = username => async (dispatch, getState) => {
     const { schedule } = getState()
     const mapSlots = (slotsFound, slotToCheck) => {
       let returnedSlot = null
-      slotsFound.forEach(slotFound => {
-        if(slotToCheck.timeOfSlot === slotFound.hour
-          && slotToCheck.dateOfSlot === slotFound.date){
-            returnedSlot = slotFound
-          }
-       })
-       return returnedSlot
+      slotsFound.forEach((slotFound) => {
+        if (slotToCheck.hour === slotFound.hour
+          && slotToCheck.date === slotFound.date) {
+          returnedSlot = slotFound
+        }
+      })
+      return returnedSlot
     }
     const currentSchedule = schedule.schedule
     const newSchedule = currentSchedule
-    .map(date => {
-      return {
-        ...date, 
-        slots: date.slots.map(slot => {
-            const newSlot = mapSlots(slotsRetrieved, slot)
-            if(newSlot){
-              return {
-                ...newSlot
-              }
+      .map(date => ({
+        ...date,
+        slots: date.slots.map((slot) => {
+          const newSlot = mapSlots(slotsRetrieved, slot)
+          if (newSlot) {
+            return {
+              ...newSlot,
             }
-            else return slot
-          })
-        }
-      })
-      dispatch(getScheduleFulfilled(newSchedule))
-    } catch (err) {
+          } return slot
+        }),
+      }))
+    dispatch(getScheduleFulfilled(newSchedule))
+  } catch (err) {
     dispatch(getScheduleRejected(err))
   }
 }
@@ -85,8 +82,8 @@ export const setInitialDate = () => {
   const schedule = currentDatesArray.map(slotDate => ({
     date: slotDate,
     slots: hours.map(hour => ({
-      dateOfSlot: slotDate,
-      timeOfSlot: `${hour}:00`,
+      date: slotDate,
+      hour: `${hour}:00`,
       classType: null,
     })),
   }))

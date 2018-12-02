@@ -9,9 +9,13 @@ import {
   GO_BACK_ONE_WEEK,
   SELECT_SLOT,
   ALLOCATE_SLOT,
+  GET_SCHEDULE,
 } from '../types/types'
 
 const defaultState = {
+  fetchingSchedule: false,
+  fetchedSchedule: false,
+  scheduleError: null,
   initialDate: null,
   currentDates: null,
   schedule: null,
@@ -23,6 +27,26 @@ const defaultState = {
 
 export default function (state = defaultState, action) {
   switch (action.type) {
+    case `${GET_SCHEDULE}_PENDING`:
+      return {
+        ...state,
+        fetchingSchedule: true
+      }
+    case `${GET_SCHEDULE}_FULFILLED`:
+      return {
+        ...state,
+        fetchingSchedule: false,
+        fetchedSchedule: true,
+        schedule: action.payload,
+        scheduleError: null,
+      }
+    case `${GET_SCHEDULE}_REJECTED`:
+      return {
+        ...state,
+        fetchingSchedule: false,
+        fetchedSchedule: false,
+        scheduleError: action.payload
+      }
     case SET_INITIAL_DATE:
       return {
         ...state,

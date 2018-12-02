@@ -69,6 +69,7 @@ class Schedule extends Component {
 
   allocateSlotClicked(classType) {
     const { selectedSlot, schedule } = this.props
+    console.log(classType)
     const dateToFind = selectedSlot.date
     const updatedSchedule = schedule.map((date) => {
       if (dateToFind === date.date) {

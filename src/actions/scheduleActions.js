@@ -21,13 +21,40 @@ export const getScheduleRejected = err => ({
   payload: err.message,
 })
 
-export const getSchedule = username => async (dispatch) => {
+export const getSchedule = username => async (dispatch, getState) => {
   dispatch(getSchedulePending())
   try {
     const response = await axios.get(`${process.env.SCHEDULE_URL}/${username}`)
-    console.log(response.data)
-    dispatch(getScheduleFulfilled(response.data))
-  } catch (err) {
+    const slotsRetrieved = response.data
+    const { schedule } = getState()
+    const mapSlots = (slotsFound, slotToCheck) => {
+      let returnedSlot = null
+      slotsFound.forEach(slotFound => {
+        if(slotToCheck.timeOfSlot === slotFound.hour
+          && slotToCheck.dateOfSlot === slotFound.date){
+            returnedSlot = slotFound
+          }
+       })
+       return returnedSlot
+    }
+    const currentSchedule = schedule.schedule
+    const newSchedule = currentSchedule
+    .map(date => {
+      return {
+        ...date, 
+        slots: date.slots.map(slot => {
+            const newSlot = mapSlots(slotsRetrieved, slot)
+            if(newSlot){
+              return {
+                ...newSlot
+              }
+            }
+            else return slot
+          })
+        }
+      })
+      dispatch(getScheduleFulfilled(newSchedule))
+    } catch (err) {
     dispatch(getScheduleRejected(err))
   }
 }

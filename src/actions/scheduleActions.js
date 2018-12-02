@@ -27,14 +27,14 @@ export const getSchedule = username => async (dispatch, getState) => {
     const response = await axios.get(`${process.env.SCHEDULE_URL}/${username}`)
     const slotsRetrieved = response.data
     const { schedule } = getState()
-    const mapSlots = (slotsFound, slotToCheck) => {
-      let returnedSlot = null
-      slotsFound.forEach((slotFound) => {
-        if (slotToCheck.hour === slotFound.hour
-          && slotToCheck.date === slotFound.date) {
-          returnedSlot = slotFound
+    const mapSlotsReduce = (slotsFound, slotToCheck) => {
+      const returnedSlot = slotsFound.reduce((acc, slot) => {
+        if (slotToCheck.hour === slot.hour
+          && slotToCheck.date === slot.date) {
+          return slot
         }
-      })
+        else return acc
+      }, slotToCheck)
       return returnedSlot
     }
     const currentSchedule = schedule.schedule
@@ -42,13 +42,8 @@ export const getSchedule = username => async (dispatch, getState) => {
       .map(date => ({
         ...date,
         slots: date.slots.map((slot) => {
-          const newSlot = mapSlots(slotsRetrieved, slot)
-          if (newSlot) {
-            return {
-              ...newSlot,
-            }
-          } return slot
-        }),
+          return mapSlotsReduce(slotsRetrieved, slot)
+        })
       }))
     dispatch(getScheduleFulfilled(newSchedule))
   } catch (err) {

@@ -33,7 +33,7 @@ export const getSchedule = username => async (dispatch, getState) => {
           && slotToCheck.date === slot.date) {
           return slot
         }
-        else return acc
+        return acc
       }, slotToCheck)
       return returnedSlot
     }
@@ -41,9 +41,7 @@ export const getSchedule = username => async (dispatch, getState) => {
     const newSchedule = currentSchedule
       .map(date => ({
         ...date,
-        slots: date.slots.map((slot) => {
-          return mapSlotsReduce(slotsRetrieved, slot)
-        })
+        slots: date.slots.map(slot => mapSlotsReduce(slotsRetrieved, slot)),
       }))
     dispatch(getScheduleFulfilled(newSchedule))
   } catch (err) {

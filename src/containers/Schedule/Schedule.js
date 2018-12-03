@@ -9,6 +9,8 @@ import CreateClassModal from '../../components/CreateClassModal/CreateClassModal
 import * as scheduleActionCreators from '../../actions/scheduleActions'
 import { generateId } from '../../helperFunctions/generateIDFunction'
 
+import './Schedule.scss'
+
 class Schedule extends Component {
   constructor() {
     super()
@@ -101,15 +103,26 @@ class Schedule extends Component {
     this.createClassClicked()
   }
 
+  generateDataStyling(slot){
+    switch(slot.classType){
+      case 'ONE_ON_ONE':
+        return "one"
+      case 'GROUP':
+        return "group"
+      default:
+        return ""
+    }
+  }
+
   renderRow(slotIndex) {
     const { schedule } = this.props
     return schedule.map((date, index) => {
-      const slotHour = schedule[index].slots[slotIndex].hour
+      const slot = schedule[index].slots[slotIndex]
       return (
-        <td key={date.date}>
+        <td className={this.generateDataStyling(slot)} key={date.date}>
           <Slot
-            slotHour={slotHour}
-            slot={schedule[index].slots[slotIndex]}
+            slotHour={slot.hour}
+            slot={slot}
             date={date}
             selectSlot={this.selectSlot}
           />
@@ -134,7 +147,7 @@ class Schedule extends Component {
       </tbody>
     ))
     return (
-      <table>
+      <table  cellSpacing="0">
         <thead>
           <tr>
             <th>Time</th>

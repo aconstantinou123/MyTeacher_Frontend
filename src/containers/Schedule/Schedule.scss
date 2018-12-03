@@ -1,0 +1,20 @@
+table {
+    border: 1px solid black;
+
+    th {
+      border: 1px solid black;
+    }
+    
+    td {
+      border-left: 1px solid black;
+      border-right: 1px solid black;
+    }
+
+    .one {
+      background-color: cornflowerblue;
+    }
+    
+    .group {
+      background-color: tomato;
+    }
+  }

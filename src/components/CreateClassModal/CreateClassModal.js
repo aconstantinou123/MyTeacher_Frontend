@@ -11,8 +11,8 @@ class CreateClassModal extends Component {
     super()
     const { selectedSlot } = props
     this.state = {
-      startTime: Number(selectedSlot.hour.split(":")[0]),
-      endTime: Number(selectedSlot.hour.split(":")[0]) + 1,
+      startTime: Number(selectedSlot.hour.split(':')[0]),
+      endTime: Number(selectedSlot.hour.split(':')[0]) + 1,
       classLevel: 'BEGINNER',
       classType: 'GROUP',
       classDescription: '',
@@ -31,9 +31,12 @@ class CreateClassModal extends Component {
 
   generateTimeSlots = () => {
     const numberOfSlots = _.range(6, 24, 1)
-    return numberOfSlots.map(slotTime => {
-      return <option key={slotTime} value={slotTime}>{slotTime}:00</option>
-    })
+    return numberOfSlots.map(slotTime => (
+      <option key={slotTime} value={slotTime}>
+        {slotTime}
+:00
+      </option>
+    ))
   }
 
   handleClassTypeChange(event) {
@@ -71,13 +74,12 @@ class CreateClassModal extends Component {
   handleSubmit(event) {
     event.preventDefault()
     const { startTime, endTime } = this.state
-    if(endTime - startTime <= 0){
+    if (endTime - startTime <= 0) {
       this.setState(prevState => ({
         ...prevState,
         displayWarning: true,
       }))
-    }
-    else{
+    } else {
       this.setState(prevState => ({
         ...prevState,
         displayWarning: false,
@@ -87,7 +89,7 @@ class CreateClassModal extends Component {
     allocateSlotClicked(this.state)
   }
 
-  handleStartTimeChange(event){
+  handleStartTimeChange(event) {
     const { target } = event
     this.setState(prevState => ({
       ...prevState,
@@ -95,7 +97,7 @@ class CreateClassModal extends Component {
     }))
   }
 
-  handleEndTimeChange(event){
+  handleEndTimeChange(event) {
     const { target } = event
     this.setState(prevState => ({
       ...prevState,
@@ -112,17 +114,17 @@ class CreateClassModal extends Component {
           <h2 className="title">Create Class</h2>
           <label htmlFor="start-time">
           Choose the start time:
-              <select id="start-time" defaultValue={startTime} onChange={this.handleStartTimeChange}>
+            <select id="start-time" defaultValue={startTime} onChange={this.handleStartTimeChange}>
               {this.generateTimeSlots()}
-              </select>
-            </label>
-            <br />
-        <label htmlFor="end-time">
+            </select>
+          </label>
+          <br />
+          <label htmlFor="end-time">
           Choose the end time:
-              <select id="end-time" defaultValue={(startTime+ 1).toString()} onChange={this.handleEndTimeChange}>
+            <select id="end-time" defaultValue={(startTime + 1).toString()} onChange={this.handleEndTimeChange}>
               {this.generateTimeSlots()}
-              </select>
-            </label>
+            </select>
+          </label>
           <br />
           <form onSubmit={this.handleSubmit}>
             <label htmlFor="select-type">
@@ -164,8 +166,8 @@ class CreateClassModal extends Component {
               <textarea id="capacity" placeholder="Enter a description for the class" onChange={this.handleDescriptionChange} />
             </label>
             {
-              displayWarning &&
-              <p>Invalid Lesson Length</p>
+              displayWarning
+              && <p>Invalid Lesson Length</p>
             }
             <div className="buttons-container">
               <button type="submit">Allocate Slot</button>

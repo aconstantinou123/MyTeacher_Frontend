@@ -86,6 +86,14 @@ export const setInitialDate = () => {
       date: slotDate,
       hour: `${hour}:00`,
       classType: null,
+      username: null,
+      classId: null,
+      classLevel: null,
+      classDescription: null,
+      capacity: null,
+      students: null,
+      startTime: null,
+      endTime: null,
     })),
   }))
   return {
@@ -104,6 +112,14 @@ export const advanceCalenderOneWeek = (schedule, slotsRetrievedFromDB) => {
     slots: date.slots.map(slot => ({
       ...slot,
       classType: null,
+      username: null,
+      classId: null,
+      classLevel: null,
+      classDescription: null,
+      capacity: null,
+      students: null,
+      startTime: null,
+      endTime: null,
       date: advanceSevenDays(date.date),
     })),
   }))
@@ -120,6 +136,14 @@ export const goBackOneCalenderWeek = (schedule, slotsRetrievedFromDB) => {
     slots: date.slots.map(slot => ({
       ...slot,
       classType: null,
+      username: null,
+      classId: null,
+      classLevel: null,
+      classDescription: null,
+      capacity: null,
+      students: null,
+      startTime: null,
+      endTime: null,
       date: goBackSevenDays(date.date),
     })),
   }))

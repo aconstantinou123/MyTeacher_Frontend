@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
@@ -83,13 +84,20 @@ class Schedule extends Component {
       allocateSlot,
       schedule,
     } = this.props
-    const slotToAllocate = {
-      ...selectedSlot,
-      ...newClass,
-      username: teacher.username,
-      classId: generateId(),
-    }
-    allocateSlot(slotToAllocate, schedule)
+    const classId = generateId()
+    const numberOfSlots = _.range(newClass.startTime, newClass.endTime, 1)
+    const slotsToAllocate = numberOfSlots.map(hour => {
+       return {
+          ...selectedSlot,
+          hour: `${hour}:00`,
+          ...newClass,
+          startTime: `${newClass.startTime}:00`,
+          endTime: `${newClass.endTime}:00`,
+          username: teacher.username,
+          classId,
+        }
+    })
+    allocateSlot(slotsToAllocate, schedule)
     this.createClassClicked()
   }
 
@@ -139,7 +147,7 @@ class Schedule extends Component {
   }
 
   render() {
-    const { fetchedSchedule, fetchingSchedule } = this.props
+    const { fetchedSchedule, fetchingSchedule, selectedSlot } = this.props
     const { createClassModalClicked } = this.state
     return (
       <div>
@@ -162,6 +170,7 @@ class Schedule extends Component {
             createClassModalClicked
             && (
             <CreateClassModal
+              selectedSlot={selectedSlot}
               allocateSlotClicked={this.allocateSlotClicked}
               closeModal={this.createClassClicked}
             />

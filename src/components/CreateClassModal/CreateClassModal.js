@@ -2,23 +2,38 @@
 /* eslint jsx-a11y/label-has-associated-control: 0 */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import _ from 'lodash'
 
 import './CreateClassModal.scss'
 
 class CreateClassModal extends Component {
-  constructor() {
+  constructor(props) {
     super()
+    const { selectedSlot } = props
     this.state = {
+      startTime: Number(selectedSlot.hour.split(":")[0]),
+      endTime: Number(selectedSlot.hour.split(":")[0]) + 1,
       classLevel: 'BEGINNER',
       classType: 'GROUP',
       classDescription: '',
       capacity: 1,
+      displayWarning: false,
     }
     this.handleClassTypeChange = this.handleClassTypeChange.bind(this)
     this.handleClassLevelChange = this.handleClassLevelChange.bind(this)
     this.handleClassCapacityChange = this.handleClassCapacityChange.bind(this)
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.generateTimeSlots = this.generateTimeSlots.bind(this)
+    this.handleStartTimeChange = this.handleStartTimeChange.bind(this)
+    this.handleEndTimeChange = this.handleEndTimeChange.bind(this)
+  }
+
+  generateTimeSlots = () => {
+    const numberOfSlots = _.range(6, 24, 1)
+    return numberOfSlots.map(slotTime => {
+      return <option key={slotTime} value={slotTime}>{slotTime}:00</option>
+    })
   }
 
   handleClassTypeChange(event) {
@@ -55,16 +70,60 @@ class CreateClassModal extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
+    const { startTime, endTime } = this.state
+    if(endTime - startTime <= 0){
+      this.setState(prevState => ({
+        ...prevState,
+        displayWarning: true,
+      }))
+    }
+    else{
+      this.setState(prevState => ({
+        ...prevState,
+        displayWarning: false,
+      }))
+    }
     const { allocateSlotClicked } = this.props
     allocateSlotClicked(this.state)
   }
 
+  handleStartTimeChange(event){
+    const { target } = event
+    this.setState(prevState => ({
+      ...prevState,
+      startTime: target.value,
+    }))
+  }
+
+  handleEndTimeChange(event){
+    const { target } = event
+    this.setState(prevState => ({
+      ...prevState,
+      endTime: target.value,
+    }))
+  }
+
   render() {
     const { closeModal } = this.props
+    const { startTime, displayWarning } = this.state
     return (
       <div className="modal-popup">
         <div className="modal-content">
           <h2 className="title">Create Class</h2>
+          <label htmlFor="start-time">
+          Choose the start time:
+              <select id="start-time" defaultValue={startTime} onChange={this.handleStartTimeChange}>
+              {this.generateTimeSlots()}
+              </select>
+            </label>
+            <br />
+        <label htmlFor="end-time">
+          Choose the end time:
+              <select id="end-time" defaultValue={(startTime+ 1).toString()} onChange={this.handleEndTimeChange}>
+              {this.generateTimeSlots()}
+              </select>
+            </label>
+          <br />
           <form onSubmit={this.handleSubmit}>
             <label htmlFor="select-type">
           Choose the type of class:
@@ -104,6 +163,10 @@ class CreateClassModal extends Component {
           Class description:
               <textarea id="capacity" placeholder="Enter a description for the class" onChange={this.handleDescriptionChange} />
             </label>
+            {
+              displayWarning &&
+              <p>Invalid Lesson Length</p>
+            }
             <div className="buttons-container">
               <button type="submit">Allocate Slot</button>
               <button type="button" onClick={() => closeModal()}>Back</button>
@@ -115,7 +178,12 @@ class CreateClassModal extends Component {
   }
 }
 
+CreateClassModal.defaultProps = {
+  selectedSlot: null,
+}
+
 CreateClassModal.propTypes = {
+  selectedSlot: PropTypes.object,
   allocateSlotClicked: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
 }

@@ -57,7 +57,7 @@ export const allocateSlotRejected = err => ({
 export const allocateSlot = (slotToAllocate, schedule) => async (dispatch) => {
   dispatch(allocateSlotPending())
   try {
-    const response = await axios.post(`${process.env.SCHEDULE_URL}`, [slotToAllocate])
+    const response = await axios.post(`${process.env.SCHEDULE_URL}`, slotToAllocate)
     const updatedSchedule = updateSchedule(schedule, response.data)
     dispatch(allocateSlotFulfilled(updatedSchedule, response.data))
   } catch (err) {

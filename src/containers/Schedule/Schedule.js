@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import Slot from '../../components/Slot/Slot'
 import CreateClassModal from '../../components/CreateClassModal/CreateClassModal'
 import * as scheduleActionCreators from '../../actions/scheduleActions'
+import { generateId } from '../../helperFunctions/generateIDFunction'
 
 class Schedule extends Component {
   constructor() {
@@ -52,13 +53,21 @@ class Schedule extends Component {
   }
 
   advanceOneWeek() {
-    const { advanceCalenderOneWeek } = this.props
-    advanceCalenderOneWeek()
+    const {
+      advanceCalenderOneWeek,
+      schedule,
+      slotsRetrievedFromDB,
+    } = this.props
+    advanceCalenderOneWeek(schedule, slotsRetrievedFromDB)
   }
 
   goBackOneWeek() {
-    const { goBackOneCalenderWeek } = this.props
-    goBackOneCalenderWeek()
+    const {
+      goBackOneCalenderWeek,
+      schedule,
+      slotsRetrievedFromDB,
+    } = this.props
+    goBackOneCalenderWeek(schedule, slotsRetrievedFromDB)
   }
 
   selectSlot(slotHour, date) {
@@ -67,27 +76,20 @@ class Schedule extends Component {
     selectSlot(date, slotHour)
   }
 
-  allocateSlotClicked(classType) {
-    const { selectedSlot, schedule } = this.props
-    console.log(classType)
-    const dateToFind = selectedSlot.date
-    const updatedSchedule = schedule.map((date) => {
-      if (dateToFind === date.date) {
-        return {
-          ...date,
-          slots: date.slots.map((slot) => {
-            if (selectedSlot.hour === slot.hour) {
-              return {
-                ...slot,
-                classType,
-              }
-            } return slot
-          }),
-        }
-      } return date
-    })
-    const { allocateSlot } = this.props
-    allocateSlot(updatedSchedule, selectedSlot)
+  allocateSlotClicked(newClass) {
+    const { 
+      selectedSlot, 
+      teacher,
+      allocateSlot,
+      schedule,
+     } = this.props
+    const slotToAllocate = {
+      ...selectedSlot,
+      ...newClass,
+      username: teacher.username,
+      classId: generateId(),
+    }
+    allocateSlot(slotToAllocate, schedule)
     this.createClassClicked()
   }
 
@@ -137,13 +139,13 @@ class Schedule extends Component {
   }
 
   render() {
-    const { initialDate } = this.props
+    const { fetchedSchedule, fetchingSchedule } = this.props
     const { createClassModalClicked } = this.state
     return (
       <div>
         <h2>My Schedule</h2>
         {
-            initialDate
+            fetchedSchedule
             && (
             <div>
                 {this.renderSchedule()}
@@ -151,7 +153,11 @@ class Schedule extends Component {
               <button type="button" onClick={this.advanceOneWeek}>Next Week</button>
             </div>
             )
-          }
+        }
+        {
+          fetchingSchedule
+          && <div>Loading...</div>
+        }
         {
             createClassModalClicked
             && (
@@ -168,18 +174,20 @@ class Schedule extends Component {
 }
 
 Schedule.defaultProps = {
-  initialDate: null,
   schedule: null,
   selectedSlot: null,
   teacher: null,
+  slotsRetrievedFromDB: null,
 }
 
 Schedule.propTypes = {
+  slotsRetrievedFromDB: PropTypes.arrayOf(PropTypes.object),
+  fetchingSchedule: PropTypes.bool.isRequired,
+  fetchedSchedule: PropTypes.bool.isRequired,
   teacher: PropTypes.object,
   getSchedule: PropTypes.func.isRequired,
   selectedSlot: PropTypes.object,
   setInitialDate: PropTypes.func.isRequired,
-  initialDate: PropTypes.string,
   advanceCalenderOneWeek: PropTypes.func.isRequired,
   goBackOneCalenderWeek: PropTypes.func.isRequired,
   schedule: PropTypes.arrayOf(PropTypes.object),

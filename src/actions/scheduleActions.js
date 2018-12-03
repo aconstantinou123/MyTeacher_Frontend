@@ -1,6 +1,10 @@
 import moment from 'moment'
 import _ from 'lodash'
 import axios from 'axios'
+import { updateSchedule } from '../helperFunctions/scheduleFunctions'
+import {
+  advanceSevenDays, goBackSevenDays,
+} from '../helperFunctions/timeFunctions'
 
 import {
   SET_INITIAL_DATE,
@@ -12,9 +16,12 @@ import {
 } from '../types/types'
 
 export const getSchedulePending = () => ({ type: `${GET_SCHEDULE}_PENDING` })
-export const getScheduleFulfilled = payload => ({
+export const getScheduleFulfilled = (updatedSchedule, slotsRetrieved) => ({
   type: `${GET_SCHEDULE}_FULFILLED`,
-  payload,
+  payload: {
+    updatedSchedule,
+    slotsRetrieved,
+  },
 })
 export const getScheduleRejected = err => ({
   type: `${GET_SCHEDULE}_REJECTED`,
@@ -27,33 +34,35 @@ export const getSchedule = username => async (dispatch, getState) => {
     const response = await axios.get(`${process.env.SCHEDULE_URL}/${username}`)
     const slotsRetrieved = response.data
     const { schedule } = getState()
-    const mapSlotsReduce = (slotsFound, slotToCheck) => {
-      const returnedSlot = slotsFound.reduce((acc, slot) => {
-        if (slotToCheck.hour === slot.hour
-          && slotToCheck.date === slot.date) {
-          return slot
-        }
-        return acc
-      }, slotToCheck)
-      return returnedSlot
-    }
-    const currentSchedule = schedule.schedule
-    const newSchedule = currentSchedule
-      .map(date => ({
-        ...date,
-        slots: date.slots.map(slot => mapSlotsReduce(slotsRetrieved, slot)),
-      }))
-    dispatch(getScheduleFulfilled(newSchedule))
+    const newSchedule = updateSchedule(schedule.schedule, slotsRetrieved)
+    dispatch(getScheduleFulfilled(newSchedule, slotsRetrieved))
   } catch (err) {
     dispatch(getScheduleRejected(err))
   }
 }
 
-export const allocateSlot = (updatedSchedule, selectedSlot) => {
-  console.log(selectedSlot)
-  return {
-    type: ALLOCATE_SLOT,
-    payload: updatedSchedule,
+export const allocateSlotPending = () => ({ type: `${ALLOCATE_SLOT}_PENDING` })
+export const allocateSlotFulfilled = (updatedSchedule, updatedSlots) => ({
+  type: `${ALLOCATE_SLOT}_FULFILLED`,
+  payload: {
+    updatedSchedule,
+    updatedSlots,
+  }
+})
+export const allocateSlotRejected = (err) => ({
+  type: `${ALLOCATE_SLOT}_REJECTED`,
+  payload: err.message,
+})
+
+export const allocateSlot = (slotToAllocate, schedule) => async (dispatch) => {
+  dispatch(allocateSlotPending())
+  try{
+    const response = await axios.post(`${process.env.SCHEDULE_URL}`, [slotToAllocate])
+    const updatedSchedule = updateSchedule(schedule, response.data)
+    dispatch(allocateSlotFulfilled(updatedSchedule, response.data))
+  }
+  catch (err){
+    dispatch(allocateSlotRejected(err))
   }
 }
 
@@ -90,10 +99,34 @@ export const setInitialDate = () => {
   }
 }
 
-export const advanceCalenderOneWeek = () => ({
-  type: GO_FORWARD_ONE_WEEK,
-})
+export const advanceCalenderOneWeek = (schedule, slotsRetrievedFromDB) => {
+  const nextWeek = schedule.map(date => ({
+    date: advanceSevenDays(date.date),
+    slots: date.slots.map(slot => ({
+      ...slot,
+      classType: null,
+      date: advanceSevenDays(date.date),
+    })),
+  }))
+  const updatedSchedule = updateSchedule(nextWeek, slotsRetrievedFromDB)
+  return {
+    type: GO_FORWARD_ONE_WEEK,
+    payload: updatedSchedule,
+  }
+}
 
-export const goBackOneCalenderWeek = () => ({
-  type: GO_BACK_ONE_WEEK,
-})
+export const goBackOneCalenderWeek = (schedule, slotsRetrievedFromDB) => {
+  const previousWeek = schedule.map(date => ({
+    date: goBackSevenDays(date.date),
+    slots: date.slots.map(slot => ({
+      ...slot,
+      classType: null,
+      date: goBackSevenDays(date.date),
+    })),
+  }))
+  const updatedSchedule = updateSchedule(previousWeek, slotsRetrievedFromDB)
+  return {
+    type: GO_BACK_ONE_WEEK,
+    payload: updatedSchedule,
+  }
+}

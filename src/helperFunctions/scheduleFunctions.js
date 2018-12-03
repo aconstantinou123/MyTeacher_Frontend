@@ -10,11 +10,9 @@ const mapSlotsReduce = (slotsFound, slotToCheck) => {
   return returnedSlot
 }
 
-  
-export const updateSchedule = (schedule, slotsRetrieved) => {
-    return schedule
-      .map(date => ({
-      ...date,
-      slots: date.slots.map(slot => mapSlotsReduce(slotsRetrieved, slot)),
+
+export const updateSchedule = (schedule, slotsRetrieved) => schedule
+  .map(date => ({
+    ...date,
+    slots: date.slots.map(slot => mapSlotsReduce(slotsRetrieved, slot)),
   }))
-}

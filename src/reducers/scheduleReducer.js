@@ -13,6 +13,9 @@ import {
 } from '../types/types'
 
 const defaultState = {
+  allocatingSlot: false,
+  allocatedSlot: false,
+  allocateSlotError: null,
   fetchingSchedule: false,
   fetchedSchedule: false,
   scheduleError: null,
@@ -23,6 +26,7 @@ const defaultState = {
     date: null,
     hour: null,
   },
+  slotsRetrievedFromDB: null,
 }
 
 export default function (state = defaultState, action) {
@@ -37,7 +41,8 @@ export default function (state = defaultState, action) {
         ...state,
         fetchingSchedule: false,
         fetchedSchedule: true,
-        schedule: action.payload,
+        schedule: action.payload.updatedSchedule,
+        slotsRetrievedFromDB: action.payload.slotsRetrieved,
         scheduleError: null,
       }
     case `${GET_SCHEDULE}_REJECTED`:
@@ -59,28 +64,14 @@ export default function (state = defaultState, action) {
         ...state,
         initialDate: advanceSevenDays(state.initialDate),
         currentDates: state.currentDates.map(date => advanceSevenDays(date)),
-        schedule: state.schedule.map(date => ({
-          date: advanceSevenDays(date.date),
-          slots: date.slots.map(slot => ({
-            ...slot,
-            classType: null,
-            date: advanceSevenDays(date.date),
-          })),
-        })),
+        schedule: action.payload,
       }
     case GO_BACK_ONE_WEEK:
       return {
         ...state,
         initialDate: goBackSevenDays(state.initialDate),
         currentDates: state.currentDates.map(date => goBackSevenDays(date)),
-        schedule: state.schedule.map(date => ({
-          date: goBackSevenDays(date.date),
-          slots: date.slots.map(slot => ({
-            ...slot,
-            classType: null,
-            date: goBackSevenDays(date.date),
-          })),
-        })),
+        schedule: action.payload,
       }
     case SELECT_SLOT:
       return {
@@ -92,14 +83,30 @@ export default function (state = defaultState, action) {
 
         },
       }
-    case ALLOCATE_SLOT:
+    case `${ALLOCATE_SLOT}_PENDING`:
       return {
         ...state,
-        schedule: action.payload,
+        allocatingSlot: true,
+      }
+    case `${ALLOCATE_SLOT}_FULFILLED`:
+      return {
+        ...state,
+        allocatingSlot: false,
+        allocatedSlot: true,
+        schedule: action.payload.updatedSchedule,
+        slotsRetrievedFromDB: action.payload.updatedSlots,
+        allocateSlotError: null,
         selectedSlot: {
           date: null,
           hour: null,
-        },
+        }
+      }
+    case `${ALLOCATE_SLOT}_REJECTED`:
+      return {
+        ...state,
+        allocatingSlot: false,
+        allocatedSlot: false,
+        allocateSlotError: action.payload,
       }
     default:
       return state

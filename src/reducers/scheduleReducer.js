@@ -99,7 +99,7 @@ export default function (state = defaultState, action) {
         selectedSlot: {
           date: null,
           hour: null,
-        }
+        },
       }
     case `${ALLOCATE_SLOT}_REJECTED`:
       return {

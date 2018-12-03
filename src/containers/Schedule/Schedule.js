@@ -77,12 +77,12 @@ class Schedule extends Component {
   }
 
   allocateSlotClicked(newClass) {
-    const { 
-      selectedSlot, 
+    const {
+      selectedSlot,
       teacher,
       allocateSlot,
       schedule,
-     } = this.props
+    } = this.props
     const slotToAllocate = {
       ...selectedSlot,
       ...newClass,

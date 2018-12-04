@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { Component } from 'react'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
@@ -12,6 +11,18 @@ import { generateId } from '../../helperFunctions/generateIDFunction'
 import './Schedule.scss'
 
 class Schedule extends Component {
+
+  static generateDataStyling(slot){
+    switch(slot.classType){
+      case 'ONE_ON_ONE':
+        return "one"
+      case 'GROUP':
+        return "group"
+      default:
+        return ""
+    }
+  }
+
   constructor() {
     super()
     this.state = { createClassModalClicked: false }
@@ -103,23 +114,12 @@ class Schedule extends Component {
     this.createClassClicked()
   }
 
-  generateDataStyling(slot){
-    switch(slot.classType){
-      case 'ONE_ON_ONE':
-        return "one"
-      case 'GROUP':
-        return "group"
-      default:
-        return ""
-    }
-  }
-
   renderRow(slotIndex) {
     const { schedule } = this.props
     return schedule.map((date, index) => {
       const slot = schedule[index].slots[slotIndex]
       return (
-        <td className={this.generateDataStyling(slot)} key={date.date}>
+        <td className={Schedule.generateDataStyling(slot)} key={date.date}>
           <Slot
             slotHour={slot.hour}
             slot={slot}

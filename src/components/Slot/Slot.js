@@ -23,7 +23,7 @@ const Slot = ({
       case 'BEGINNER':
         return 'Beginner'
       default:
-        return ""
+        return ''
     }
   }
 
@@ -38,24 +38,23 @@ const Slot = ({
     }
   }
   const chooseTextToDisplay = () => {
-    if(startTime && startTime === hour){
+    if (startTime && startTime === hour) {
       return displayClassType()
     }
-    else if(startTime && (hour - startTime) === 1){
+    if (startTime && (hour - startTime) === 1) {
       return displayClassLevel()
     }
-    else if(startTime && (hour - startTime) === 2){
+    if (startTime && (hour - startTime) === 2) {
       return `${slot.startTime} - ${slot.endTime}`
     }
-    else if(startTime && (hour - startTime) === 3){
+    if (startTime && (hour - startTime) === 3) {
       return `No. of students: ${slot.students.length ? slot.students.length : 0}`
     }
-    else if(startTime){
-      return ""
+    if (startTime) {
+      return ''
     }
-    else {
-      return `Free Slot ${slotHour}`
-    }
+
+    return `Free Slot ${slotHour}`
   }
 
   const displayClassCSS = () => {

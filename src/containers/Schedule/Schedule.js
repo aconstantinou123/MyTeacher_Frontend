@@ -11,15 +11,14 @@ import { generateId } from '../../helperFunctions/generateIDFunction'
 import './Schedule.scss'
 
 class Schedule extends Component {
-
-  static generateDataStyling(slot){
-    switch(slot.classType){
+  static generateDataStyling(slot) {
+    switch (slot.classType) {
       case 'ONE_ON_ONE':
-        return "one"
+        return 'one'
       case 'GROUP':
-        return "group"
+        return 'group'
       default:
-        return ""
+        return ''
     }
   }
 
@@ -99,17 +98,15 @@ class Schedule extends Component {
     } = this.props
     const classId = generateId()
     const numberOfSlots = _.range(newClass.startTime, newClass.endTime, 1)
-    const slotsToAllocate = numberOfSlots.map(hour => {
-       return {
-          ...selectedSlot,
-          hour: `${hour}:00`,
-          ...newClass,
-          startTime: `${newClass.startTime}:00`,
-          endTime: `${newClass.endTime}:00`,
-          username: teacher.username,
-          classId,
-        }
-    })
+    const slotsToAllocate = numberOfSlots.map(hour => ({
+      ...selectedSlot,
+      hour: `${hour}:00`,
+      ...newClass,
+      startTime: `${newClass.startTime}:00`,
+      endTime: `${newClass.endTime}:00`,
+      username: teacher.username,
+      classId,
+    }))
     allocateSlot(slotsToAllocate, schedule)
     this.createClassClicked()
   }
@@ -147,7 +144,7 @@ class Schedule extends Component {
       </tbody>
     ))
     return (
-      <table  cellSpacing="0">
+      <table cellSpacing="0">
         <thead>
           <tr>
             <th>Time</th>

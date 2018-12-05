@@ -21,7 +21,7 @@ class CreateClassModal extends Component {
       warningMessage: '',
       updateClass: false,
       classId: 'none',
-      students: []
+      students: [],
     }
     this.handleClassTypeChange = this.handleClassTypeChange.bind(this)
     this.handleClassLevelChange = this.handleClassLevelChange.bind(this)

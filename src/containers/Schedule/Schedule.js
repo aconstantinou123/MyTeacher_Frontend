@@ -109,7 +109,7 @@ class Schedule extends Component {
       endTime: `${newClass.endTime}:00`,
       username: teacher.username,
       classId,
-      students: newClass.students || []
+      students: newClass.students || [],
     }))
     if (newClass.classId === 'none') {
       allocateSlot(slotsToAllocate, schedule)

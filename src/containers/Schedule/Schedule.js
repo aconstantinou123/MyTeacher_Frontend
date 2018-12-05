@@ -34,6 +34,7 @@ class Schedule extends Component {
     this.renderRow = this.renderRow.bind(this)
     this.createClassClicked = this.createClassClicked.bind(this)
     this.allocateSlotClicked = this.allocateSlotClicked.bind(this)
+    this.deleteClassFromSchedule = this.deleteClassFromSchedule.bind(this)
   }
 
   componentWillMount() {
@@ -119,6 +120,12 @@ class Schedule extends Component {
     this.createClassClicked()
   }
 
+  deleteClassFromSchedule(classId){
+    const { deleteClass, teacher } = this.props
+    deleteClass(teacher.username, classId)
+    this.createClassClicked()
+  }
+
   renderRow(slotIndex) {
     const { schedule } = this.props
     return schedule.map((date, index) => {
@@ -193,6 +200,7 @@ class Schedule extends Component {
             createClassModalClicked
             && (
             <CreateClassModal
+              deleteClassFromSchedule={this.deleteClassFromSchedule}
               schedule={schedule}
               selectedSlot={selectedSlot}
               allocateSlotClicked={this.allocateSlotClicked}
@@ -214,6 +222,7 @@ Schedule.defaultProps = {
 }
 
 Schedule.propTypes = {
+  deleteClass: PropTypes.func.isRequired,
   updateClass: PropTypes.func.isRequired,
   slotsRetrievedFromDB: PropTypes.arrayOf(PropTypes.object),
   fetchingSchedule: PropTypes.bool.isRequired,

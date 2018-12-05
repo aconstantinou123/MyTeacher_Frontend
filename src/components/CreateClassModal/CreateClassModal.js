@@ -13,8 +13,8 @@ class CreateClassModal extends Component {
     this.state = {
       startTime: Number(selectedSlot.hour.split(':')[0]),
       endTime: Number(selectedSlot.hour.split(':')[0]) + 1,
-      classLevel: 'OPEN_SLOT',
-      classType: 'NONE_SPECIFIED',
+      classLevel: 'NONE_SPECIFIED',
+      classType: 'OPEN_SLOT',
       classDescription: '',
       capacity: 1,
       displayWarning: false,
@@ -32,6 +32,7 @@ class CreateClassModal extends Component {
     this.handleStartTimeChange = this.handleStartTimeChange.bind(this)
     this.handleEndTimeChange = this.handleEndTimeChange.bind(this)
     this.checkForScheduleConflict = this.checkForScheduleConflict.bind(this)
+    this.handleDeleteClicked = this.handleDeleteClicked.bind(this)
   }
 
   componentWillMount() {
@@ -166,6 +167,12 @@ class CreateClassModal extends Component {
     }))
   }
 
+  handleDeleteClicked(){
+    const { deleteClassFromSchedule } = this.props
+    const { classId } = this.state
+    deleteClassFromSchedule(classId)
+  }
+
   render() {
     const { closeModal } = this.props
     const {
@@ -245,6 +252,10 @@ class CreateClassModal extends Component {
             <div className="buttons-container">
               <button type="submit">Allocate Slot</button>
               <button type="button" onClick={() => closeModal()}>Back</button>
+              {
+                classType &&
+                <button type="button" onClick={this.handleDeleteClicked}>Delete Class</button>
+              }
             </div>
           </form>
         </div>
@@ -258,6 +269,7 @@ CreateClassModal.defaultProps = {
 }
 
 CreateClassModal.propTypes = {
+  deleteClassFromSchedule: PropTypes.func.isRequired,
   schedule: PropTypes.arrayOf(PropTypes.object).isRequired,
   selectedSlot: PropTypes.object,
   allocateSlotClicked: PropTypes.func.isRequired,

@@ -14,7 +14,35 @@ import {
   ALLOCATE_SLOT,
   GET_SCHEDULE,
   UPDATE_CLASS,
+  DELETE_CLASS,
 } from '../types/types'
+
+export const deleteClassPending = () => ({ type: `${DELETE_CLASS}_PENDING` })
+export const deleteClassFulfilled = (updatedSchedule, slotsRetrieved) => ({
+  type: `${DELETE_CLASS}_FULFILLED`,
+  payload: {
+    updatedSchedule,
+    slotsRetrieved,
+  }
+})
+export const deleteClassRejected = (err) => ({
+  type: `${DELETE_CLASS}_REJECTED`,
+  payload: err.message,
+})
+
+export const deleteClass = (username, classId) => async (dispatch, getState) => {
+  dispatch(deleteClassPending())
+  try {
+    const response = await axios.delete(`${process.env.SCHEDULE_URL}/${username}/${classId}`)
+    const slotsRetrieved = response.data
+    const { schedule } = getState()
+    const updatedSchedule = updateSchedule(schedule.schedule, slotsRetrieved)
+    dispatch(deleteClassFulfilled(updatedSchedule, response.data))
+  }
+  catch (err) {
+    dispatch(deleteClassRejected(err))
+  }
+}
 
 export const getSchedulePending = () => ({ type: `${GET_SCHEDULE}_PENDING` })
 export const getScheduleFulfilled = (updatedSchedule, slotsRetrieved) => ({

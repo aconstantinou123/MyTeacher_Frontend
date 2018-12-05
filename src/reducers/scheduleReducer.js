@@ -11,9 +11,13 @@ import {
   ALLOCATE_SLOT,
   GET_SCHEDULE,
   UPDATE_CLASS,
+  DELETE_CLASS,
 } from '../types/types'
 
 const defaultState = {
+  deletingClass: false,
+  deletedClass: false,
+  deleteClassError: null,
   allocatingSlot: false,
   allocatedSlot: false,
   allocateSlotError: null,
@@ -35,6 +39,27 @@ const defaultState = {
 
 export default function (state = defaultState, action) {
   switch (action.type) {
+    case `${DELETE_CLASS}_PENDING`:
+      return {
+        ...state,
+        deletingClass: true
+      }
+    case `${DELETE_CLASS}_FULFILLED`:
+      return {
+        ...state,
+        deletingClass: false,
+        deletedClass: true,
+        schedule: action.payload.updatedSchedule,
+        slotsRetrievedFromDB: action.payload.slotsRetrieved,
+        deleteClassError: null
+      }
+    case `${DELETE_CLASS}_REJECTED`:
+      return {
+        ...state,
+        deletingClass: false,
+        deletedClass: false,
+        deleteClassError: action.payload,
+      }
     case `${GET_SCHEDULE}_PENDING`:
       return {
         ...state,

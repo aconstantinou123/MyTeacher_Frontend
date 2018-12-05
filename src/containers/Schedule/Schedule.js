@@ -108,10 +108,9 @@ class Schedule extends Component {
       username: teacher.username,
       classId,
     }))
-    if(newClass.classId === 'none'){
+    if (newClass.classId === 'none') {
       allocateSlot(slotsToAllocate, schedule)
-    }
-    else {
+    } else {
       updateClass(slotsToAllocate, schedule)
     }
     this.createClassClicked()

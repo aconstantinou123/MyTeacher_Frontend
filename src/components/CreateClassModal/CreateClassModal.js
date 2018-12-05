@@ -20,7 +20,7 @@ class CreateClassModal extends Component {
       displayWarning: false,
       warningMessage: '',
       updateClass: false,
-      classId: 'none'
+      classId: 'none',
     }
     this.handleClassTypeChange = this.handleClassTypeChange.bind(this)
     this.handleClassLevelChange = this.handleClassLevelChange.bind(this)
@@ -33,11 +33,11 @@ class CreateClassModal extends Component {
     this.checkForScheduleConflict = this.checkForScheduleConflict.bind(this)
   }
 
-  componentWillMount(){
+  componentWillMount() {
     const { selectedSlot, schedule } = this.props
     const dayToCheck = schedule.find(day => day.date === selectedSlot.date).slots
     const slotInSchedule = dayToCheck.find(slot => slot.hour === selectedSlot.hour)
-    if(slotInSchedule.classId){
+    if (slotInSchedule.classId) {
       this.setState(prevState => ({
         ...prevState,
         startTime: Number(slotInSchedule.startTime.split(':')[0]),
@@ -50,7 +50,6 @@ class CreateClassModal extends Component {
         updateClass: true,
       }))
     }
-    
   }
 
   generateTimeSlots = () => {
@@ -167,21 +166,21 @@ class CreateClassModal extends Component {
 
   render() {
     const { closeModal } = this.props
-    const { 
-      startTime, 
+    const {
+      startTime,
       displayWarning,
-      warningMessage, 
+      warningMessage,
       endTime,
       updateClass,
       classLevel,
       classType,
       classDescription,
       capacity,
-       } = this.state
+    } = this.state
     return (
       <div className="modal-popup">
         <div className="modal-content">
-          <h2 className="title">{updateClass ? "Update Class" : "Create Class"}</h2>
+          <h2 className="title">{updateClass ? 'Update Class' : 'Create Class'}</h2>
           <label htmlFor="start-time">
           Choose the start time:
             <select id="start-time" defaultValue={startTime} onChange={this.handleStartTimeChange}>

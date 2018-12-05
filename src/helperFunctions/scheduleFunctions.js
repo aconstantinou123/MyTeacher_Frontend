@@ -6,7 +6,7 @@ const mapSlotsReduce = (slotsFound, slotToCheck) => {
       return slot
     }
     return acc
-  }, { 
+  }, {
     ...slotToCheck,
     classType: null,
     username: null,
@@ -17,7 +17,7 @@ const mapSlotsReduce = (slotsFound, slotToCheck) => {
     students: null,
     startTime: null,
     endTime: null,
-   })
+  })
   return returnedSlot
 }
 

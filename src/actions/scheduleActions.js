@@ -13,6 +13,7 @@ import {
   SELECT_SLOT,
   ALLOCATE_SLOT,
   GET_SCHEDULE,
+  UPDATE_CLASS,
 } from '../types/types'
 
 export const getSchedulePending = () => ({ type: `${GET_SCHEDULE}_PENDING` })
@@ -54,10 +55,10 @@ export const allocateSlotRejected = err => ({
   payload: err.message,
 })
 
-export const allocateSlot = (slotToAllocate, schedule) => async (dispatch) => {
+export const allocateSlot = (slotsToAllocate, schedule) => async (dispatch) => {
   dispatch(allocateSlotPending())
   try {
-    const response = await axios.post(`${process.env.SCHEDULE_URL}`, slotToAllocate)
+    const response = await axios.post(`${process.env.SCHEDULE_URL}`, slotsToAllocate)
     const updatedSchedule = updateSchedule(schedule, response.data)
     dispatch(allocateSlotFulfilled(updatedSchedule, response.data))
   } catch (err) {
@@ -103,6 +104,30 @@ export const setInitialDate = () => {
       currentDatesArray,
       schedule,
     },
+  }
+}
+
+export const updateClassPending = () => ({ type: `${UPDATE_CLASS}_PENDING` })
+export const updateClassFulfilled = (updatedSchedule, updatedSlots) => ({
+  type: `${UPDATE_CLASS}_FULFILLED`,
+  payload: {
+    updatedSchedule,
+    updatedSlots,
+  },
+})
+export const updateClassRejected = err => ({
+  type: `${UPDATE_CLASS}_REJECTED`,
+  payload: err.message,
+})
+
+export const updateClass = (slotsToUpdate, schedule) => async (dispatch) => {
+  dispatch(updateClassPending())
+  try {
+    const response = await axios.put(`${process.env.SCHEDULE_URL}/update`, slotsToUpdate)
+    const updatedSchedule = updateSchedule(schedule, response.data)
+    dispatch(updateClassFulfilled(updatedSchedule, response.data))
+  } catch (err) {
+    dispatch(updateClassRejected(err))
   }
 }
 

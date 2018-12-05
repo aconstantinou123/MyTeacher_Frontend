@@ -10,12 +10,16 @@ import {
   SELECT_SLOT,
   ALLOCATE_SLOT,
   GET_SCHEDULE,
+  UPDATE_CLASS,
 } from '../types/types'
 
 const defaultState = {
   allocatingSlot: false,
   allocatedSlot: false,
   allocateSlotError: null,
+  updatingClass: false,
+  updatedClass: false,
+  updateClassError: null,
   fetchingSchedule: false,
   fetchedSchedule: false,
   scheduleError: null,
@@ -107,6 +111,31 @@ export default function (state = defaultState, action) {
         allocatingSlot: false,
         allocatedSlot: false,
         allocateSlotError: action.payload,
+      }
+    case `${UPDATE_CLASS}_PENDING`:
+      return {
+        ...state,
+        updatingClass: true,
+      }
+    case `${UPDATE_CLASS}_FULFILLED`:
+      return {
+        ...state,
+        updatingClass: false,
+        updatedClass: true,
+        schedule: action.payload.updatedSchedule,
+        slotsRetrievedFromDB: action.payload.updatedSlots,
+        updateClassError: null,
+        selectedSlot: {
+          date: null,
+          hour: null,
+        },
+      }
+    case `${UPDATE_CLASS}_REJECTED`:
+      return {
+        ...state,
+        updatingClass: false,
+        updatedClass: false,
+        updateClassError: action.payload,
       }
     default:
       return state

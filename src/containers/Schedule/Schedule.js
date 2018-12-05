@@ -94,9 +94,10 @@ class Schedule extends Component {
       selectedSlot,
       teacher,
       allocateSlot,
+      updateClass,
       schedule,
     } = this.props
-    const classId = generateId()
+    const classId = newClass.classId !== 'none' ? newClass.classId : generateId()
     const numberOfSlots = _.range(newClass.startTime, newClass.endTime, 1)
     const slotsToAllocate = numberOfSlots.map(hour => ({
       ...selectedSlot,
@@ -107,7 +108,12 @@ class Schedule extends Component {
       username: teacher.username,
       classId,
     }))
-    allocateSlot(slotsToAllocate, schedule)
+    if(newClass.classId === 'none'){
+      allocateSlot(slotsToAllocate, schedule)
+    }
+    else {
+      updateClass(slotsToAllocate, schedule)
+    }
     this.createClassClicked()
   }
 
@@ -157,12 +163,12 @@ class Schedule extends Component {
   }
 
   render() {
-    const { 
-      fetchedSchedule, 
-      fetchingSchedule, 
+    const {
+      fetchedSchedule,
+      fetchingSchedule,
       selectedSlot,
       schedule,
-     } = this.props
+    } = this.props
     const { createClassModalClicked } = this.state
     return (
       <div>
@@ -206,6 +212,7 @@ Schedule.defaultProps = {
 }
 
 Schedule.propTypes = {
+  updateClass: PropTypes.func.isRequired,
   slotsRetrievedFromDB: PropTypes.arrayOf(PropTypes.object),
   fetchingSchedule: PropTypes.bool.isRequired,
   fetchedSchedule: PropTypes.bool.isRequired,

@@ -1,3 +1,5 @@
+@import '../../colors.scss';
+
 table {
     border: 1px solid black;
 
@@ -16,5 +18,9 @@ table {
     
     .group {
       background-color: tomato;
+    }
+
+    .open {
+      background-color: $dark-yellow;
     }
   }

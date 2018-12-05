@@ -13,6 +13,8 @@ import './Schedule.scss'
 class Schedule extends Component {
   static generateDataStyling(slot) {
     switch (slot.classType) {
+      case 'OPEN_SLOT':
+        return 'open'
       case 'ONE_ON_ONE':
         return 'one'
       case 'GROUP':
@@ -107,6 +109,7 @@ class Schedule extends Component {
       endTime: `${newClass.endTime}:00`,
       username: teacher.username,
       classId,
+      students: newClass.students || []
     }))
     if (newClass.classId === 'none') {
       allocateSlot(slotsToAllocate, schedule)

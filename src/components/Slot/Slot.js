@@ -22,6 +22,8 @@ const Slot = ({
         return 'Elementary'
       case 'BEGINNER':
         return 'Beginner'
+      case 'NONE_SPECIFIED':
+        return 'None specified'
       default:
         return ''
     }
@@ -29,6 +31,8 @@ const Slot = ({
 
   const displayClassType = () => {
     switch (slot.classType) {
+      case 'OPEN_SLOT':
+        return 'Open slot'
       case 'ONE_ON_ONE':
         return 'One on One'
       case 'GROUP':
@@ -38,7 +42,6 @@ const Slot = ({
     }
   }
   const chooseTextToDisplay = () => {
-    // console.log(startTime)
     if (startTime && startTime === hour) {
       return displayClassType()
     }
@@ -60,6 +63,8 @@ const Slot = ({
 
   const displayClassCSS = () => {
     switch (slot.classType) {
+      case 'OPEN_SLOT':
+        return 'slot-button open'
       case 'ONE_ON_ONE':
         return 'slot-button one'
       case 'GROUP':

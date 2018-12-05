@@ -13,14 +13,15 @@ class CreateClassModal extends Component {
     this.state = {
       startTime: Number(selectedSlot.hour.split(':')[0]),
       endTime: Number(selectedSlot.hour.split(':')[0]) + 1,
-      classLevel: 'BEGINNER',
-      classType: 'GROUP',
+      classLevel: 'OPEN_SLOT',
+      classType: 'NONE_SPECIFIED',
       classDescription: '',
       capacity: 1,
       displayWarning: false,
       warningMessage: '',
       updateClass: false,
       classId: 'none',
+      students: []
     }
     this.handleClassTypeChange = this.handleClassTypeChange.bind(this)
     this.handleClassLevelChange = this.handleClassLevelChange.bind(this)
@@ -47,6 +48,7 @@ class CreateClassModal extends Component {
         classDescription: slotInSchedule.classDescription,
         capacity: slotInSchedule.capacity,
         classId: slotInSchedule.classId,
+        students: slotInSchedule.students,
         updateClass: true,
       }))
     }
@@ -199,6 +201,7 @@ class CreateClassModal extends Component {
             <label htmlFor="select-type">
           Choose the type of class:
               <select id="select-type" defaultValue={classType} onChange={this.handleClassTypeChange}>
+                <option value="OPEN_SLOT">Open slot</option>
                 <option value="GROUP">Group</option>
                 <option value="ONE_ON_ONE">One on one</option>
               </select>
@@ -207,6 +210,7 @@ class CreateClassModal extends Component {
             <label htmlFor="select-level">
             Choose the level of the class:
               <select id="select-level" defaultValue={classLevel} onChange={this.handleClassLevelChange}>
+                <option value="NONE_SPECIFIED">None specified</option>
                 <option value="BEGINNER">Beginner</option>
                 <option value="ELEMENTARY">Elementary</option>
                 <option value="PRE_INT">Pre-Intermediate</option>

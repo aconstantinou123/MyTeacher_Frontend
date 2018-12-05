@@ -157,7 +157,12 @@ class Schedule extends Component {
   }
 
   render() {
-    const { fetchedSchedule, fetchingSchedule, selectedSlot } = this.props
+    const { 
+      fetchedSchedule, 
+      fetchingSchedule, 
+      selectedSlot,
+      schedule,
+     } = this.props
     const { createClassModalClicked } = this.state
     return (
       <div>
@@ -180,6 +185,7 @@ class Schedule extends Component {
             createClassModalClicked
             && (
             <CreateClassModal
+              schedule={schedule}
               selectedSlot={selectedSlot}
               allocateSlotClicked={this.allocateSlotClicked}
               closeModal={this.createClassClicked}

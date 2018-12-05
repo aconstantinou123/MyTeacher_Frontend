@@ -38,6 +38,7 @@ const Slot = ({
     }
   }
   const chooseTextToDisplay = () => {
+    // console.log(startTime)
     if (startTime && startTime === hour) {
       return displayClassType()
     }

@@ -7,6 +7,18 @@ import _ from 'lodash'
 import './CreateClassModal.scss'
 
 class CreateClassModal extends Component {
+  static checkForScheduleConflict(day, slotsToCheck){
+    const checkSlotFree = (slotToCheck) => {
+    return day.slots.reduce((acc,slot) => {
+      if((`${slotToCheck}:00` === slot.hour) && (slot.classLevel !== null)){
+        return (`${slotToCheck}:00` === slot.hour) && (slot.classLevel !== null)
+        }
+      else return acc
+      }, false)
+    } 
+    const freeSlots = slotsToCheck.map(checkSlotFree).some(conflict => conflict === true)
+    return freeSlots
+  }
   constructor(props) {
     super()
     const { selectedSlot } = props
@@ -18,6 +30,7 @@ class CreateClassModal extends Component {
       classDescription: '',
       capacity: 1,
       displayWarning: false,
+      warningMessage: '',
     }
     this.handleClassTypeChange = this.handleClassTypeChange.bind(this)
     this.handleClassLevelChange = this.handleClassLevelChange.bind(this)
@@ -73,23 +86,42 @@ class CreateClassModal extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
+    const { selectedSlot, schedule } = this.props
     const { startTime, endTime } = this.state
-    if (endTime - startTime <= 0) {
+    const hoursToCheck = _.range(startTime, endTime, 1)
+    const dayToCheck = schedule.find(day => day.date === selectedSlot.date)
+    const scheduleConflict = CreateClassModal.checkForScheduleConflict(dayToCheck, hoursToCheck)
+    if(!scheduleConflict) {
+      if (endTime - startTime <= 0) {
+        this.setState(prevState => ({
+          ...prevState,
+          displayWarning: true,
+          warningMessage: 'Invalid Lesson length'
+        }))
+      } else {
+        this.setState(prevState => ({
+          ...prevState,
+          displayWarning: false,
+        }))
+        const { allocateSlotClicked } = this.props
+        allocateSlotClicked(this.state)
+      }
+      }
+    else {
       this.setState(prevState => ({
         ...prevState,
         displayWarning: true,
-      }))
-    } else {
-      this.setState(prevState => ({
-        ...prevState,
-        displayWarning: false,
+        warningMessage: 'Schedule Conflict'
       }))
     }
-    const { allocateSlotClicked } = this.props
-    allocateSlotClicked(this.state)
   }
 
   handleStartTimeChange(event) {
+    this.setState(prevState => ({
+      ...prevState,
+      displayWarning: false,
+      warningMessage: '',
+    }))  
     const { target } = event
     this.setState(prevState => ({
       ...prevState,
@@ -98,6 +130,11 @@ class CreateClassModal extends Component {
   }
 
   handleEndTimeChange(event) {
+    this.setState(prevState => ({
+      ...prevState,
+      displayWarning: false,
+      warningMessage: '',
+    }))  
     const { target } = event
     this.setState(prevState => ({
       ...prevState,
@@ -107,7 +144,7 @@ class CreateClassModal extends Component {
 
   render() {
     const { closeModal } = this.props
-    const { startTime, displayWarning } = this.state
+    const { startTime, displayWarning, warningMessage } = this.state
     return (
       <div className="modal-popup">
         <div className="modal-content">
@@ -167,7 +204,7 @@ class CreateClassModal extends Component {
             </label>
             {
               displayWarning
-              && <p>Invalid Lesson Length</p>
+              && <p>{warningMessage}</p>
             }
             <div className="buttons-container">
               <button type="submit">Allocate Slot</button>
@@ -185,6 +222,7 @@ CreateClassModal.defaultProps = {
 }
 
 CreateClassModal.propTypes = {
+  schedule: PropTypes.arrayOf(PropTypes.object).isRequired,
   selectedSlot: PropTypes.object,
   allocateSlotClicked: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,

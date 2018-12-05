@@ -42,7 +42,7 @@ export default function (state = defaultState, action) {
     case `${DELETE_CLASS}_PENDING`:
       return {
         ...state,
-        deletingClass: true
+        deletingClass: true,
       }
     case `${DELETE_CLASS}_FULFILLED`:
       return {
@@ -51,7 +51,7 @@ export default function (state = defaultState, action) {
         deletedClass: true,
         schedule: action.payload.updatedSchedule,
         slotsRetrievedFromDB: action.payload.slotsRetrieved,
-        deleteClassError: null
+        deleteClassError: null,
       }
     case `${DELETE_CLASS}_REJECTED`:
       return {

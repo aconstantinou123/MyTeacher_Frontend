@@ -167,7 +167,7 @@ class CreateClassModal extends Component {
     }))
   }
 
-  handleDeleteClicked(){
+  handleDeleteClicked() {
     const { deleteClassFromSchedule } = this.props
     const { classId } = this.state
     deleteClassFromSchedule(classId)
@@ -253,8 +253,8 @@ class CreateClassModal extends Component {
               <button type="submit">Allocate Slot</button>
               <button type="button" onClick={() => closeModal()}>Back</button>
               {
-                classType &&
-                <button type="button" onClick={this.handleDeleteClicked}>Delete Class</button>
+                classType
+                && <button type="button" onClick={this.handleDeleteClicked}>Delete Class</button>
               }
             </div>
           </form>

@@ -23,9 +23,9 @@ export const deleteClassFulfilled = (updatedSchedule, slotsRetrieved) => ({
   payload: {
     updatedSchedule,
     slotsRetrieved,
-  }
+  },
 })
-export const deleteClassRejected = (err) => ({
+export const deleteClassRejected = err => ({
   type: `${DELETE_CLASS}_REJECTED`,
   payload: err.message,
 })
@@ -38,8 +38,7 @@ export const deleteClass = (username, classId) => async (dispatch, getState) => 
     const { schedule } = getState()
     const updatedSchedule = updateSchedule(schedule.schedule, slotsRetrieved)
     dispatch(deleteClassFulfilled(updatedSchedule, response.data))
-  }
-  catch (err) {
+  } catch (err) {
     dispatch(deleteClassRejected(err))
   }
 }

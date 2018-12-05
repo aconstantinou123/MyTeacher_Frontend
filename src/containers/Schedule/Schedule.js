@@ -120,7 +120,7 @@ class Schedule extends Component {
     this.createClassClicked()
   }
 
-  deleteClassFromSchedule(classId){
+  deleteClassFromSchedule(classId) {
     const { deleteClass, teacher } = this.props
     deleteClass(teacher.username, classId)
     this.createClassClicked()

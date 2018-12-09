@@ -8,7 +8,7 @@ import './WelcomePage.scss'
 const WelcomePage = ({ teacher }) => (
   <div>
     <h1>myTeacher</h1>
-    <p>Welcome to myTeacher. Please login to continue or proceed your account</p>
+    <p>Welcome to myTeacher  - Teacher Portal. Please login to continue or proceed your account</p>
     {
           teacher
           && <Link to="/teacher">Go to Teacher Page</Link>

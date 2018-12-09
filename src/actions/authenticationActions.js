@@ -50,6 +50,6 @@ export const persistLogin = () => async (dispatch) => {
     })
     dispatch(persistLoginFulfilled(response.data))
   } catch (err) {
-    dispatch(teacherLoginRejected(err))
+    dispatch(persistLoginRejected(err))
   }
 }

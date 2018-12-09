@@ -6,13 +6,11 @@ import {
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-const PrivateRoute = ({
-  path, teacherLoginErr, ComponentToRender, ...rest
+const ProtectedRoute = ({
+  teacherLoginErr, component: ComponentToRender, ...rest
 }) => (
   <Route
     {...rest}
-    exact
-    path={path}
     render={props => (
       teacherLoginErr ? (
         <Redirect to="/login" />
@@ -23,12 +21,11 @@ const PrivateRoute = ({
   />
 )
 
-
-PrivateRoute.defaultProps = {
+ProtectedRoute.defaultProps = {
   teacherLoginErr: null,
 }
 
-PrivateRoute.propTypes = {
+ProtectedRoute.propTypes = {
   path: PropTypes.string.isRequired,
   teacherLoginErr: PropTypes.string,
 }
@@ -39,4 +36,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(PrivateRoute)
+export default connect(mapStateToProps)(ProtectedRoute)

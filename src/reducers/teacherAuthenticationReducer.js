@@ -1,5 +1,6 @@
 import {
   TEACHER_LOGIN,
+  PERSIST_LOGIN,
 } from '../types/types'
 
 const defaultState = {
@@ -23,6 +24,25 @@ export default function (state = defaultState, action) {
         teacherLoginErr: null,
       }
     case `${TEACHER_LOGIN}_REJECTED`:
+      return {
+        ...state,
+        teacherLoggingIn: false,
+        teacherLoggedIn: false,
+        teacherLoginErr: action.payload,
+      }
+    case `${PERSIST_LOGIN}_PENDING`:
+      return {
+        ...state,
+        teacherLoggingIn: true,
+      }
+    case `${PERSIST_LOGIN}_FULFILLED`:
+      return {
+        ...state,
+        teacherLoggingIn: false,
+        teacherLoggedIn: true,
+        teacherLoginErr: null,
+      }
+    case `${PERSIST_LOGIN}_REJECTED`:
       return {
         ...state,
         teacherLoggingIn: false,

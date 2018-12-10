@@ -3,7 +3,10 @@ import _ from 'lodash'
 import axios from 'axios'
 import { updateSchedule } from '../helperFunctions/scheduleFunctions'
 import {
-  advanceSevenDays, goBackSevenDays,
+  advanceSevenDays, 
+  goBackSevenDays,
+  convertToDBFormat,
+  convertToDisplayFormat,
 } from '../helperFunctions/timeFunctions'
 
 import {
@@ -34,10 +37,10 @@ export const deleteClass = (username, classId) => async (dispatch, getState) => 
   dispatch(deleteClassPending())
   try {
     const response = await axios.delete(`${process.env.SCHEDULE_URL}/${username}/${classId}`)
-    const slotsRetrieved = response.data
+    const formattedDates = response.data.map(convertToDisplayFormat)
     const { schedule } = getState()
-    const updatedSchedule = updateSchedule(schedule.schedule, slotsRetrieved)
-    dispatch(deleteClassFulfilled(updatedSchedule, response.data))
+    const updatedSchedule = updateSchedule(schedule.schedule, formattedDates)
+    dispatch(deleteClassFulfilled(updatedSchedule, formattedDates))
   } catch (err) {
     dispatch(deleteClassRejected(err))
   }
@@ -60,10 +63,10 @@ export const getSchedule = username => async (dispatch, getState) => {
   dispatch(getSchedulePending())
   try {
     const response = await axios.get(`${process.env.SCHEDULE_URL}/${username}`)
-    const slotsRetrieved = response.data
+    const formattedDates = response.data.map(convertToDisplayFormat)
     const { schedule } = getState()
-    const newSchedule = updateSchedule(schedule.schedule, slotsRetrieved)
-    dispatch(getScheduleFulfilled(newSchedule, slotsRetrieved))
+    const newSchedule = updateSchedule(schedule.schedule, formattedDates)
+    dispatch(getScheduleFulfilled(newSchedule, formattedDates))
   } catch (err) {
     dispatch(getScheduleRejected(err))
   }
@@ -83,11 +86,13 @@ export const allocateSlotRejected = err => ({
 })
 
 export const allocateSlot = (slotsToAllocate, schedule) => async (dispatch) => {
+  const datesForDB = slotsToAllocate.map(convertToDBFormat)
   dispatch(allocateSlotPending())
   try {
-    const response = await axios.post(`${process.env.SCHEDULE_URL}`, slotsToAllocate)
-    const updatedSchedule = updateSchedule(schedule, response.data)
-    dispatch(allocateSlotFulfilled(updatedSchedule, response.data))
+    const response = await axios.post(`${process.env.SCHEDULE_URL}`, datesForDB)
+    const formattedDates = response.data.map(convertToDisplayFormat)
+    const updatedSchedule = updateSchedule(schedule, formattedDates)
+    dispatch(allocateSlotFulfilled(updatedSchedule, formattedDates))
   } catch (err) {
     dispatch(allocateSlotRejected(err))
   }
@@ -148,11 +153,13 @@ export const updateClassRejected = err => ({
 })
 
 export const updateClass = (slotsToUpdate, schedule) => async (dispatch) => {
+  const datesForDB = slotsToUpdate.map(convertToDBFormat)
   dispatch(updateClassPending())
   try {
-    const response = await axios.put(`${process.env.SCHEDULE_URL}/update`, slotsToUpdate)
-    const updatedSchedule = updateSchedule(schedule, response.data)
-    dispatch(updateClassFulfilled(updatedSchedule, response.data))
+    const response = await axios.put(`${process.env.SCHEDULE_URL}/update`, datesForDB)
+    const formattedDates = response.data.map(convertToDisplayFormat)
+    const updatedSchedule = updateSchedule(schedule, formattedDates)
+    dispatch(updateClassFulfilled(updatedSchedule, formattedDates))
   } catch (err) {
     dispatch(updateClassRejected(err))
   }

@@ -13,7 +13,7 @@ module.exports = {
     "no-underscore-dangle": ["error", {
       "allow": ["_id", "__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"]
     }],
-    "react/forbid-prop-types": false,
+    "react/forbid-prop-types": 0,
     "import/prefer-default-export": 0,
     "react/sort-comp": 1,
   },

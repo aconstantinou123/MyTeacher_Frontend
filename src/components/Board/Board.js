@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { emit } from '../../store/websocketsInit'
 import PropTypes from 'prop-types'
+import { emit } from '../../store/websocketsInit'
 
 import './Board.scss'
 
 class Board extends Component {
-  constructor(){
+  constructor() {
     super()
     this.state = {
       x: null,
@@ -18,52 +18,51 @@ class Board extends Component {
     this.renderBoard = this.renderBoard.bind(this)
   }
 
-  componentDidMount(){
-    this.setState(prevState => ({ 
-      ...prevState, 
-      ctx: this.canvas.getContext("2d")
-       }))
-    const ctx = this.canvas.getContext("2d")
-    ctx.fillStyle = "#FFFF"
-    ctx.fillRect(0, 0,640,425)
-  }
-
-  getMousePostionCanvas(e){
-    const { screenX, target, pageY } = e
-    this.setState(prevState => ({ 
-      ...prevState, 
-      x: screenX,
-      y: pageY - target.offsetTop }))
-  }
-
-  writeText(e){
-    const { ctx, x, y } = this.state
-    if(e.key === 'Enter'){
-      this.setState(prevState => ({ 
-        ...prevState, 
-        y: prevState.y +25,
-      }))
-    }
-    else if (e.key === 'Backspace'){
-      this.setState(prevState => ({ 
-        ...prevState, 
-        x: prevState.x -25,
-      }))
-    ctx.fillStyle = "#FFFF"
-    ctx.fillRect(x-25, y -30, 30, 40)
-    }
-    else {
-      ctx.font = "40px Courier"
-      ctx.fillStyle = "#000000"
-      ctx.fillText(e.key, x, y)
-      this.setState(prevState => ({ 
-      ...prevState, 
-      x: prevState.x + 25,
+  componentDidMount() {
+    this.setState(prevState => ({
+      ...prevState,
+      ctx: this.canvas.getContext('2d'),
     }))
+    const ctx = this.canvas.getContext('2d')
+    ctx.fillStyle = '#FFFF'
+    ctx.fillRect(0, 0, 640, 425)
+  }
+
+  getMousePostionCanvas(e) {
+    const { screenX, target, pageY } = e
+    this.setState(prevState => ({
+      ...prevState,
+      x: screenX,
+      y: pageY - target.offsetTop,
+    }))
+  }
+
+  writeText(e) {
+    const { ctx, x, y } = this.state
+    if (e.key === 'Enter') {
+      this.setState(prevState => ({
+        ...prevState,
+        y: prevState.y + 25,
+      }))
+    } else if (e.key === 'Backspace') {
+      this.setState(prevState => ({
+        ...prevState,
+        x: prevState.x - 25,
+      }))
+      ctx.fillStyle = '#FFFF'
+      ctx.fillRect(x - 25, y - 30, 30, 40)
+    } else {
+      ctx.font = '40px Courier'
+      ctx.fillStyle = '#000000'
+      ctx.fillText(e.key, x, y)
+      this.setState(prevState => ({
+        ...prevState,
+        x: prevState.x + 25,
+      }))
     }
   }
 
-  sendMessage(){
+  sendMessage() {
     // const { ctx } = this.state
     // const imgdata = ctx.getImageData(0,0, 640, 425).data
     // console.log(imgdata)
@@ -71,37 +70,36 @@ class Board extends Component {
     emit(canvasData)
   }
 
-  renderBoard(){
+  renderBoard() {
     return (
       <div>
-          <canvas
-          tabIndex="0" 
-          className='canvas' 
+        <canvas
+          tabIndex="0"
+          className="canvas"
           ref={(canvas) => { this.canvas = canvas }}
-          width={640} 
-          height={425} 
+          width={640}
+          height={425}
           onClick={this.getMousePostionCanvas}
-          onKeyDown={this.writeText} 
-          />
-      <button type="button" onClick={this.sendMessage}>Send Message</button>
+          onKeyDown={this.writeText}
+        />
+        <button type="button" onClick={this.sendMessage}>Send Message</button>
       </div>
     )
   }
 
-  render(){
+  render() {
     const { dataReceived } = this.props
     return (
       <div>
         {this.renderBoard()}
-        <img src={dataReceived} alt="board"/>
-    </div>
+        <img src={dataReceived} alt="board" />
+      </div>
     )
-   
   }
 }
 
 Board.defaultProps = {
-  dataReceived: null
+  dataReceived: null,
 }
 
 Board.propTypes = {

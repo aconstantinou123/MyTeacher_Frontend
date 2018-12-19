@@ -1,7 +1,7 @@
 import { MESSAGE_RECEIVED } from '../types/types'
 
 const defaultState = {
-  dataReceived: ''
+  dataReceived: '',
 }
 
 export default function (state = defaultState, action) {
@@ -9,7 +9,7 @@ export default function (state = defaultState, action) {
     case MESSAGE_RECEIVED:
       return {
         ...state,
-        dataReceived: action.payload
+        dataReceived: action.payload,
       }
     default:
       return state

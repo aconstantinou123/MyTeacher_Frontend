@@ -38,7 +38,7 @@ Video Chat Test
           && <button type="button" onClick={this.handleDisconnect}>Disconnect</button>
         }
         {/* <Board dataReceived={dataReceived}/> */}
-         <WebSocketBoard dataRecieved={dataReceived} />
+        <WebSocketBoard dataRecieved={dataReceived} />
       </div>
     )
   }
@@ -54,7 +54,7 @@ VirtualClassroom.propTypes = {
   disconnectFromRoom: PropTypes.func.isRequired,
   connectToRoom: PropTypes.func.isRequired,
   hasJoinedRoom: PropTypes.bool.isRequired,
-  dataReceived: PropTypes.string
+  dataReceived: PropTypes.string,
 }
 
 function mapStateToProps(state) {

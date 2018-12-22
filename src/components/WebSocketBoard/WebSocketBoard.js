@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { emit } from '../../store/websocketsInit'
 import PropTypes from 'prop-types'
+import { emit } from '../../store/websocketsInit'
 
 import './WebSocketBoard.scss'
 

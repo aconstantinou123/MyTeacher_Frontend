@@ -18,18 +18,17 @@ const init = (store) => {
       store.dispatch({ type: MESSAGE_RECEIVED, payload: parsedMessage.content })
     })
     stompClient.send(`/app/chat.addUser/${username}`,
-    {},
-    JSON.stringify({ sender: username, type: 'JOIN' }))
+      {},
+      JSON.stringify({ sender: username, type: 'JOIN' }))
   }
 
 
-
-const onError = (error) => {
+  const onError = (error) => {
     console.log('disconnect', error.message)
     stompClient.connect({}, onConnected, onError)
   }
 
-      stompClient.connect({}, onConnected, onError)
+  stompClient.connect({}, onConnected, onError)
 }
 
 const emit = (message, username) => {

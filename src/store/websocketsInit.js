@@ -1,19 +1,19 @@
 // import { WEBSOCKET_TYPES, SOCKET_DISCONNECTED, SOCKET_CONNECTING } from '../types/types'
 import { Stomp } from '@stomp/stompjs'
 import SockJS from 'sockjs-client'
-import { 
+import {
   MESSAGE_RECEIVED,
   VOCAB_MESSAGE,
   GRAMMAR_MESSAGE,
   AIMS_MESSAGE,
   MISC_MESSAGE,
- } from '../types/types'
+} from '../types/types'
 
 let socket
 let stompClient
 
 const sendMessageToReducer = (message, store) => {
-  switch(message.type){
+  switch (message.type) {
     case 'VOCAB':
       return store.dispatch({ type: VOCAB_MESSAGE, payload: message.content })
     case 'GRAMMAR':
@@ -23,8 +23,8 @@ const sendMessageToReducer = (message, store) => {
     case 'MISC':
       return store.dispatch({ type: MISC_MESSAGE, payload: message.content })
     default:
-      return store.dispatch({ type: MESSAGE_RECEIVED, payload: message.content }) 
-  } 
+      return store.dispatch({ type: MESSAGE_RECEIVED, payload: message.content })
+  }
 }
 
 

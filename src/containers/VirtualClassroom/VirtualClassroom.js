@@ -41,22 +41,22 @@ Video Chat Test
         }
         {/* <Board dataReceived={dataReceived}/> */}
         <div className="boards-container">
-        <WebSocketBoard
-          messageType="VOCAB"
-          teacher={teacher}
-        />
-        <WebSocketBoard
-          messageType="GRAMMAR"
-          teacher={teacher}
-        />
-        <WebSocketBoard
-          messageType="AIMS"
-          teacher={teacher}
-        />
-        <WebSocketBoard
-          messageType="MISC"
-          teacher={teacher}
-        />
+          <WebSocketBoard
+            messageType="VOCAB"
+            teacher={teacher}
+          />
+          <WebSocketBoard
+            messageType="GRAMMAR"
+            teacher={teacher}
+          />
+          <WebSocketBoard
+            messageType="AIMS"
+            teacher={teacher}
+          />
+          <WebSocketBoard
+            messageType="MISC"
+            teacher={teacher}
+          />
         </div>
       </div>
     )

@@ -23,7 +23,7 @@ class VirtualClassroom extends Component {
   }
 
   render() {
-    const { connectToRoom, hasJoinedRoom, dataReceived } = this.props
+    const { connectToRoom, hasJoinedRoom, dataReceived, teacher } = this.props
     return (
       <div className="test">
 Video Chat Test
@@ -38,7 +38,10 @@ Video Chat Test
           && <button type="button" onClick={this.handleDisconnect}>Disconnect</button>
         }
         {/* <Board dataReceived={dataReceived}/> */}
-        <WebSocketBoard dataRecieved={dataReceived} />
+        <WebSocketBoard 
+        dataRecieved={dataReceived}
+        teacher={teacher}
+         />
       </div>
     )
   }
@@ -47,9 +50,11 @@ Video Chat Test
 VirtualClassroom.defaultProps = {
   activeRoom: null,
   dataReceived: null,
+  teacher: null,
 }
 
 VirtualClassroom.propTypes = {
+  teacher: PropTypes.object,
   activeRoom: PropTypes.object,
   disconnectFromRoom: PropTypes.func.isRequired,
   connectToRoom: PropTypes.func.isRequired,

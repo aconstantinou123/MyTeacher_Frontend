@@ -20,8 +20,8 @@ class WebSocketBoard extends Component {
       if (this.vocabBoard.value === '') {
         emit(' ')
       } else {
-        const { teacher } = this.props
-        emit(this.vocabBoard.value, teacher.username)
+        const { teacher, messageType } = this.props
+        emit(this.vocabBoard.value, teacher.username, messageType)
       }
     }, 500)
   }
@@ -32,8 +32,8 @@ class WebSocketBoard extends Component {
       if (this.vocabBoard.value === '') {
         emit(' ')
       } else {
-        const { teacher } = this.props
-        emit(this.vocabBoard.value, teacher.username)
+        const { teacher, messageType } = this.props
+        emit(this.vocabBoard.value, teacher.username, messageType)
       }
     }
   }
@@ -69,6 +69,7 @@ WebSocketBoard.defaultProps = {
 }
 
 WebSocketBoard.propTypes = {
+  messageType: PropTypes.string.isRequired,
   teacher: PropTypes.object,
 }
 

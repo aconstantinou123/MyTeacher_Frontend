@@ -1,0 +1,11 @@
+.boards-container {
+  border: solid black 1px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  width: 40%;
+
+  >div{
+    flex: 0 50%;
+  }
+}

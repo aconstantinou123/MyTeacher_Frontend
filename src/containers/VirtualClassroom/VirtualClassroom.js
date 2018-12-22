@@ -6,9 +6,9 @@ import * as videoChatActionCreators from '../../actions/videoChatActions'
 import * as teacherActionCreators from '../../actions/teacherActions'
 import * as authenticationActionCreators from '../../actions/authenticationActions'
 
-import './VirtualClassroom.scss'
 import WebSocketBoard from '../../components/WebSocketBoard/WebSocketBoard'
-// import Board from '../../components/Board/Board';
+
+import './VirtualClassroom.scss'
 
 class VirtualClassroom extends Component {
   constructor() {
@@ -24,7 +24,7 @@ class VirtualClassroom extends Component {
 
   render() {
     const {
-      connectToRoom, hasJoinedRoom, dataReceived, teacher,
+      connectToRoom, hasJoinedRoom, teacher,
     } = this.props
     return (
       <div className="test">
@@ -40,10 +40,24 @@ Video Chat Test
           && <button type="button" onClick={this.handleDisconnect}>Disconnect</button>
         }
         {/* <Board dataReceived={dataReceived}/> */}
+        <div className="boards-container">
         <WebSocketBoard
-          dataRecieved={dataReceived}
+          messageType="VOCAB"
           teacher={teacher}
         />
+        <WebSocketBoard
+          messageType="GRAMMAR"
+          teacher={teacher}
+        />
+        <WebSocketBoard
+          messageType="AIMS"
+          teacher={teacher}
+        />
+        <WebSocketBoard
+          messageType="MISC"
+          teacher={teacher}
+        />
+        </div>
       </div>
     )
   }
@@ -51,7 +65,6 @@ Video Chat Test
 
 VirtualClassroom.defaultProps = {
   activeRoom: null,
-  dataReceived: null,
   teacher: null,
 }
 
@@ -61,7 +74,6 @@ VirtualClassroom.propTypes = {
   disconnectFromRoom: PropTypes.func.isRequired,
   connectToRoom: PropTypes.func.isRequired,
   hasJoinedRoom: PropTypes.bool.isRequired,
-  dataReceived: PropTypes.string,
 }
 
 function mapStateToProps(state) {

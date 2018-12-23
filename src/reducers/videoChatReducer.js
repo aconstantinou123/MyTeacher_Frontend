@@ -47,7 +47,10 @@ export default function (state = defaultState, action) {
         localMediaAvailable: true,
         hasJoinedRoom: true,
         activeRoom: action.payload,
-        localParticipant: action.payload.localParticipant,
+        localParticipant: {
+          ...action.payload.localParticipant,
+          role: 'teacher',
+        },
         connectionError: null,
       }
     case `${CONNECT_TO_ROOM}_REJECTED`:

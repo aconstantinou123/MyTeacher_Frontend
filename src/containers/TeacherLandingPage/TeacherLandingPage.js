@@ -17,9 +17,7 @@ class TeacherLandingPage extends Component {
       teacher,
       getStudentRecords,
       getSchedule,
-      generateToken,
     } = this.props
-    generateToken()
     if (teacher) {
       getSchedule(teacher.username)
       getStudentRecords(teacher.username)
@@ -75,7 +73,6 @@ TeacherLandingPage.defaultProps = {
 
 TeacherLandingPage.propTypes = {
   getSchedule: PropTypes.func.isRequired,
-  generateToken: PropTypes.func.isRequired,
   teacher: PropTypes.object,
   getStudentRecords: PropTypes.func.isRequired,
 }

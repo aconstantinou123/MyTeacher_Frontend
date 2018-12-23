@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { connect, createLocalTracks } from 'twilio-video'
-import randomString from 'randomstring'
 import { roomJoined } from '../helperFunctions/videoChatFunctions'
 
 import {
@@ -8,8 +7,6 @@ import {
   CONNECT_TO_ROOM,
   DISCONNECT_FROM_ROOM,
 } from '../types/types'
-
-const randomUsername = randomString.generate(20)
 
 export const generateTokenPending = () => ({ type: `${GENERATE_TOKEN}_PENDING` })
 export const generateTokenFulfilled = payload => ({
@@ -21,10 +18,10 @@ export const generateTokenRejected = err => ({
   payload: err.message,
 })
 
-export const generateToken = () => async (dispatch) => {
+export const generateToken = username => async (dispatch) => {
   dispatch(generateTokenPending())
   try {
-    const response = await axios.get(`${process.env.TWILIO_URL}?identity=${randomUsername}&room=example`)
+    const response = await axios.get(`${process.env.TWILIO_URL}?identity=TEACHER_${username}&room=classroom`)
     dispatch(generateTokenFulfilled(response.data))
   } catch (err) {
     dispatch(generateTokenRejected(err))

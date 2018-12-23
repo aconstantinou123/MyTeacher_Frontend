@@ -16,6 +16,26 @@ class VirtualClassroom extends Component {
     this.handleDisconnect = this.handleDisconnect.bind(this)
   }
 
+  componentDidMount() {
+    const {
+      teacher,
+      generateToken,
+    } = this.props
+    if (teacher) {
+      generateToken(teacher.username)
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      teacher,
+      generateToken,
+    } = this.props
+    if (teacher !== nextProps.teacher && nextProps.teacher.username) {
+      generateToken(nextProps.teacher.username)
+    }
+  }
+
   handleDisconnect() {
     const { activeRoom, disconnectFromRoom } = this.props
     activeRoom.disconnect()
@@ -39,7 +59,6 @@ Video Chat Test
           hasJoinedRoom
           && <button type="button" onClick={this.handleDisconnect}>Disconnect</button>
         }
-        {/* <Board dataReceived={dataReceived}/> */}
         <div className="boards-container">
           <WebSocketBoard
             messageType="VOCAB"
@@ -69,6 +88,7 @@ VirtualClassroom.defaultProps = {
 }
 
 VirtualClassroom.propTypes = {
+  generateToken: PropTypes.func.isRequired,
   teacher: PropTypes.object,
   activeRoom: PropTypes.object,
   disconnectFromRoom: PropTypes.func.isRequired,

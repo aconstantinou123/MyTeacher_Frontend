@@ -49,7 +49,7 @@ class WebSocketBoard extends Component {
   render() {
     const { value } = this.state
     return (
-      <div>
+      <div className="board-container">
         <textarea
           className="board"
           type="text"

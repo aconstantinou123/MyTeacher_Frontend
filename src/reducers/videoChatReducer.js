@@ -2,6 +2,8 @@ import {
   GENERATE_TOKEN,
   CONNECT_TO_ROOM,
   DISCONNECT_FROM_ROOM,
+  PARTICIPANT_ADDED,
+  PARTICIPANT_LEFT,
 } from '../types/types'
 
 const defaultState = {
@@ -19,10 +21,21 @@ const defaultState = {
   activeRoom: null,
   localParticipant: null,
   connectionError: null,
+  numberOfParticipants: 0,
 }
 
 export default function (state = defaultState, action) {
   switch (action.type) {
+    case PARTICIPANT_ADDED:
+      return {
+        ...state,
+        numberOfParticipants: state.numberOfParticipants + 1
+      }
+    case PARTICIPANT_LEFT:
+      return {
+        ...state,
+        numberOfParticipants: state.numberOfParticipants - 1
+      }
     case DISCONNECT_FROM_ROOM:
       return {
         ...state,

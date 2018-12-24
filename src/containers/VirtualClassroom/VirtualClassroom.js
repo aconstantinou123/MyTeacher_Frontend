@@ -14,6 +14,7 @@ class VirtualClassroom extends Component {
   constructor() {
     super()
     this.handleDisconnect = this.handleDisconnect.bind(this)
+    this.studentWebCamCSS = this.studentWebCamCSS.bind(this)
   }
 
   componentDidMount() {
@@ -36,6 +37,25 @@ class VirtualClassroom extends Component {
     }
   }
 
+  studentWebCamCSS(){
+    const { numberOfParticipants } = this.props
+    switch(numberOfParticipants){
+      case 1:
+        return 'student-video-one'
+      case 2:
+        return 'student-video-two'
+      case 3:
+        return 'student-video-three'
+      case 4:
+        return 'student-video-four'
+      case 5:
+      case 6:
+        return 'student-video-six'
+      default:
+        return 'student-video-one'
+    }
+  }
+
   handleDisconnect() {
     const { activeRoom, disconnectFromRoom } = this.props
     activeRoom.disconnect()
@@ -46,19 +66,14 @@ class VirtualClassroom extends Component {
     const {
       connectToRoom, hasJoinedRoom, teacher,
     } = this.props
+    console.log(this.studentWebCamCSS())
     return (
-      <div className="test">
-Video Chat Test
-        <div ref={(remoteMedia) => { this.remoteMedia = remoteMedia }} className="media-container" />
-        <div ref={(localMedia) => { this.localMedia = localMedia }} className="media-container" />
-        {
-          !hasJoinedRoom
-          && <button type="button" onClick={() => connectToRoom(this.localMedia, this.remoteMedia)}>Connect</button>
-        }
-        {
-          hasJoinedRoom
-          && <button type="button" onClick={this.handleDisconnect}>Disconnect</button>
-        }
+      <div className="classroom-container">
+       <div className="student-container">
+          <div 
+          ref={(remoteMedia) => { this.remoteMedia = remoteMedia }} 
+          className={this.studentWebCamCSS()} />
+        </div>
         <div className="boards-container">
           <WebSocketBoard
             messageType="VOCAB"
@@ -77,6 +92,17 @@ Video Chat Test
             teacher={teacher}
           />
         </div>
+        <div ref={(localMedia) => { this.localMedia = localMedia }} className="teacher-container" />
+        <div className="chat-box">
+          {
+            !hasJoinedRoom
+            && <button type="button" onClick={() => connectToRoom(this.localMedia, this.remoteMedia)}>Connect</button>
+          }
+          {
+            hasJoinedRoom
+            && <button type="button" onClick={this.handleDisconnect}>Disconnect</button>
+          }
+        </div>
       </div>
     )
   }
@@ -94,6 +120,7 @@ VirtualClassroom.propTypes = {
   disconnectFromRoom: PropTypes.func.isRequired,
   connectToRoom: PropTypes.func.isRequired,
   hasJoinedRoom: PropTypes.bool.isRequired,
+  numberOfParticipants: PropTypes.number.isRequired,
 }
 
 function mapStateToProps(state) {

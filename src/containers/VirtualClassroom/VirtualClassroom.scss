@@ -1,11 +1,115 @@
-.boards-container {
-  border: solid black 1px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  width: 40%;
+@import '../../colors.scss';
 
-  >div{
-    flex: 0 50%;
+.classroom-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0px;
+  margin: 0px;
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 50% 25% 25%;
+  grid-template-rows: 50% 50%;
+  background: $purple-brown;
+
+  .boards-container {
+    grid-column: 2 / span 2;
+    grid-row: 1 / span 1;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+    border: solid $brown-black 2px;
+  }
+
+  .student-container{
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 2;
+    background: $purple-brown;
+    overflow: hidden;
+    margin: auto;
+    height: 100%;
+    width: 100%;
+
+    
+    .student-video-one{
+      height: 100%;
+      align-items: center;
+
+      video{
+        margin: auto;
+        width: 100%;
+        overflow: hidden;
+      }
+    }
+
+    .student-video-two{
+      height: 100%;
+      display: grid;
+      grid-template-rows: 50% 50%;
+      align-items: center;
+      
+      video{
+        margin: auto;
+        height: 100%;
+        overflow: hidden;
+      }
+    }
+
+    .student-video-three{
+      height: 100%;
+      display: grid;
+      grid-template-rows: 33% 33% 33%;
+      align-items: center;
+      
+      video{
+        margin: auto;
+        height: 100%;
+        overflow: hidden;
+      }
+    }
+
+    .student-video-four{
+      height: 100%;
+      display: grid;
+      grid-template-rows: 50% 50%;
+      grid-template-columns: 50% 50%;
+      align-items: center;
+      
+      video{
+        margin: auto;
+        width: 100%;
+        overflow: hidden;
+      }
+    }
+
+    .student-video-six{
+      height: 100%;
+      display: grid;
+      grid-template-rows: 33% 33% 33%;
+      grid-template-columns: 50% 50%;
+      align-items: center;
+      
+      video{
+        width: 100%;
+        overflow: hidden;
+      }
+    }
+  }
+
+  .teacher-container {
+    grid-column: 2 / span 1;
+    grid-row: 2 / span 1;
+    background: $beige;
+    video{
+      width: 100%;
+      z-index: -1;
+    }
+  }
+
+  .chat-box {
+    grid-column: 3 / span 1;
+    grid-row: 2 / span 1;
+    background: $burgandy;
   }
 }

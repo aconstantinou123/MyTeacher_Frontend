@@ -1,3 +1,9 @@
+import store from '../store/store'
+import {
+  PARTICIPANT_ADDED,
+  PARTICIPANT_LEFT,
+} from '../types/types'
+
 export const attachTracks = (tracks, remoteContainer) => {
   tracks.forEach((track) => {
     remoteContainer.appendChild(track.attach())
@@ -27,9 +33,15 @@ export const roomJoined = (room, remoteContainer, localContainer) => {
   room.participants.forEach((participant) => {
     console.log(`Already in Room: '${participant.identity}'`)
     attachParticipantTracks(participant, remoteContainer)
+    if (!participant.identity.includes('TEACHER')) {
+      store.dispatch({ type: PARTICIPANT_ADDED })
+    }
   })
   room.on('participantConnected', (participant) => {
     console.log(`A remote Participant connected: ${participant}`)
+    if (!participant.identity.includes('TEACHER')) {
+      store.dispatch({ type: PARTICIPANT_ADDED })
+    }
   })
   room.on('trackSubscribed', (track, participant) => {
     console.log(`${participant.identity} added track: ${track.kind}`)
@@ -43,6 +55,9 @@ export const roomJoined = (room, remoteContainer, localContainer) => {
   room.on('participantDisconnected', (participant) => {
     console.log(`Participant '${participant.identity}' left the room`)
     detachParticipantTracks(participant)
+    if (!participant.identity.includes('TEACHER')) {
+      store.dispatch({ type: PARTICIPANT_LEFT })
+    }
   })
 
   room.on('disconnected', () => {

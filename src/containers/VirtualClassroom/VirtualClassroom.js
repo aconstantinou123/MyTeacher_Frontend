@@ -37,9 +37,9 @@ class VirtualClassroom extends Component {
     }
   }
 
-  studentWebCamCSS(){
+  studentWebCamCSS() {
     const { numberOfParticipants } = this.props
-    switch(numberOfParticipants){
+    switch (numberOfParticipants) {
       case 1:
         return 'student-video-one'
       case 2:
@@ -69,10 +69,11 @@ class VirtualClassroom extends Component {
     console.log(this.studentWebCamCSS())
     return (
       <div className="classroom-container">
-       <div className="student-container">
-          <div 
-          ref={(remoteMedia) => { this.remoteMedia = remoteMedia }} 
-          className={this.studentWebCamCSS()} />
+        <div className="student-container">
+          <div
+            ref={(remoteMedia) => { this.remoteMedia = remoteMedia }}
+            className={this.studentWebCamCSS()}
+          />
         </div>
         <div className="boards-container">
           <WebSocketBoard

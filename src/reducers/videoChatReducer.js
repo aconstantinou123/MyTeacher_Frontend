@@ -29,12 +29,12 @@ export default function (state = defaultState, action) {
     case PARTICIPANT_ADDED:
       return {
         ...state,
-        numberOfParticipants: state.numberOfParticipants + 1
+        numberOfParticipants: state.numberOfParticipants + 1,
       }
     case PARTICIPANT_LEFT:
       return {
         ...state,
-        numberOfParticipants: state.numberOfParticipants - 1
+        numberOfParticipants: state.numberOfParticipants - 1,
       }
     case DISCONNECT_FROM_ROOM:
       return {
